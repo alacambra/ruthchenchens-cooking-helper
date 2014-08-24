@@ -55,3 +55,6 @@ docs/_build/
 #idea
 .idea
 *.iml
+
+
+db.sqlite3
