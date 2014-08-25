@@ -58,3 +58,4 @@ docs/_build/
 
 
 db.sqlite3
+settings.py
