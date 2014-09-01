@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Book(models.Model):
-    question = models.CharField(max_length=13)
+    isbn = models.CharField(max_length=17)
     title = models.CharField(max_length=256)
 
 
@@ -10,6 +10,12 @@ class Recipe(models.Model):
     title = models.CharField(max_length=256)
     book = models.ForeignKey(Book)
     rating = models.IntegerField(default=0)
+
+    def __str__(self):
+        print "lalal"
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class BookRecipe(models.Model):
@@ -25,5 +31,6 @@ class Ingredient(models.Model):
 
 class Category(models.Model):
     recipe = models.ForeignKey(Recipe)
+    book = models.ForeignKey(Book)
     name = models.CharField(max_length=256)
 
