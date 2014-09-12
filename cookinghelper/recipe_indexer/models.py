@@ -12,7 +12,7 @@ class Recipe(models.Model):
     rating = models.IntegerField(default=0)
 
     def __str__(self):
-        print "lalal"
+        return "recipe " + self.title + " from " + self.book.isbn
 
     def __repr__(self):
         return self.__str__()

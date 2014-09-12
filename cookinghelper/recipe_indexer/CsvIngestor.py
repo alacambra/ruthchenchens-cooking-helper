@@ -1,4 +1,3 @@
-from libxml2mod import xmlIsBlankNode
 
 __author__ = 'alacambra'
 
@@ -31,29 +30,36 @@ class Ingestor:
     def load(self, filename="data/receptes-v01.csv"):
         f = open(filename)
 
-        i=0
+        i = 0
         for line in f:
             if i == 0:
-                i+=1
+                i += 1
                 continue
 
-            element = line.split(",")
+            element = line[:-1].split(",")
 
             if element[self.isbn_col] not in self.books:
-                self.books[element[self.isbn_col]] = \
-                    models.Book(isbn=element[self.isbn_col], title=element[self.title_col])
 
-                self.recipes.append(models.Recipe(
-                    title=element[self.recipe_col],
-                    book=self.books[element[self.isbn_col]],
-                    rating=element[self.recipe_rate_col]))
+                book = models.Book(isbn=element[self.isbn_col], title=element[self.title_col])
+                book.save()
+                book = models.Book.objects.latest('id')
+                self.books[element[self.isbn_col]] = book
 
-        for b in self.books.values():
-            b.save()
+            recipe = models.Recipe(
+                title=element[self.recipe_col],
+                book=self.books[element[self.isbn_col]],
+                rating=element[self.recipe_rate_col] if element[self.recipe_rate_col] is not '' else 0)
 
-        # print self.recipes
-        #
-        for r in self.recipes:
-            print r
-            r.save()
+            recipe.save()
+
+            self.recipes.append(models.Recipe.objects.latest("id"))
+
+    def fetch(self):
+        total_books = models.Book.objects.count()
+        print total_books
+
+        recipes = models.Recipe.objects.all()
+
+        for r in recipes:
+            print unicode(r.__str__())
 
