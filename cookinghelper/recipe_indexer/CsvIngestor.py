@@ -8,7 +8,7 @@ __author__ = 'alacambra'
 #     print element[7]
 
 import models
-
+from models import *
 
 class Ingestor:
 
@@ -38,21 +38,47 @@ class Ingestor:
 
             element = line[:-1].split(",")
 
-            if element[self.isbn_col] not in self.books:
+            self.save_book(element)
+            self.save_recipe(element)
 
-                book = models.Book(isbn=element[self.isbn_col], title=element[self.title_col])
-                book.save()
-                book = models.Book.objects.latest('id')
-                self.books[element[self.isbn_col]] = book
 
-            recipe = models.Recipe(
-                title=element[self.recipe_col],
-                book=self.books[element[self.isbn_col]],
-                rating=element[self.recipe_rate_col] if element[self.recipe_rate_col] is not '' else 0)
+    def save_book(self, element):
 
-            recipe.save()
+        if element[self.isbn_col] not in self.books:
+            book = models.Book(isbn=element[self.isbn_col], title=element[self.title_col])
+            book.save()
+            book = models.Book.objects.latest('id')
+            self.books[element[self.isbn_col]] = self.save_book(element)
+            return book
 
-            self.recipes.append(models.Recipe.objects.latest("id"))
+        return None
+
+    def save_recipe(self, element):
+        recipe = models.Recipe(
+            title=element[self.recipe_col],
+            book=self.books[element[self.isbn_col]],
+            rating=element[self.recipe_rate_col] if element[self.recipe_rate_col] is not '' else 0)
+
+        recipe.save()
+        self.recipes.append(models.Recipe.objects.latest("id"))
+
+    def save_page(self, element):
+        page = models.BookRecipe(book=self.books[element[self.isbn_col]], recipe=models.Recipe.objects.latest("id"),
+                                 page=element[self.page_col])
+        page.save()
+
+    def save_ingredients(self, element, recipe):
+        ingredients = element[self.ingredients_col]
+        ingredients = ingredients.split(";")
+
+        for ingredient in ingredients:
+            ingredient = models.Ingredient(name=ingredient)
+            ingredient.save()
+            models.IngredientRecipe(ingredient=models.Ingredient.objects.latest("id"),
+                                    recipe=recipe)
+
+    def save_category(self, element):
+        pass
 
     def fetch(self):
         total_books = models.Book.objects.count()
@@ -63,3 +89,6 @@ class Ingestor:
         for r in recipes:
             print unicode(r.__str__())
 
+
+    def getIngredient(self, ingredient):
+        pass
