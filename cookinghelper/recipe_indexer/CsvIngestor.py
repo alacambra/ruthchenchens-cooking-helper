@@ -1,14 +1,8 @@
 
 __author__ = 'alacambra'
 
-
-# f = open("../data/receptes-v01.csv")
-# for line in f:
-#     element = line[:-1].split(",")
-#     print element[7]
-
-import models
 from models import *
+
 
 class Ingestor:
 
@@ -24,6 +18,9 @@ class Ingestor:
     books = {}
     recipes = []
 
+    ingredients = []
+    categories = []
+
     def __init__(self):
         pass
 
@@ -38,8 +35,10 @@ class Ingestor:
 
             element = line[:-1].split(",")
 
-            self.save_book(element)
-            self.save_recipe(element)
+            # self.save_book(element)
+            # self.save_recipe(element)
+            Recipe.objects.all()
+            self.save_ingredients(element, "")
 
 
     def save_book(self, element):
@@ -71,16 +70,19 @@ class Ingestor:
         ingredients = element[self.ingredients_col]
         ingredients = ingredients.split(";")
 
-        for ingredient in ingredients:
-            ingredient = models.Ingredient(name=ingredient)
-            ingredient.save()
-            models.IngredientRecipe(ingredient=models.Ingredient.objects.latest("id"),
-                                    recipe=recipe)
+        for ingredient_name in ingredients:
+
+            if self.element_exists(ingredient_name, Ingredient, self.ingredients):
+                ingredient = Ingredient(name=ingredient_name)
+                ingredient.save()
+
+            IngredientRecipe(ingredient=Ingredient.objects.latest("id"), recipe=recipe)
 
     def save_category(self, element):
         pass
 
-    def fetch(self):
+    @staticmethod
+    def fetch():
         total_books = models.Book.objects.count()
         print total_books
 
@@ -89,6 +91,37 @@ class Ingestor:
         for r in recipes:
             print unicode(r.__str__())
 
-
-    def getIngredient(self, ingredient):
+    def get_ingredient(self, ingredient):
         pass
+
+    def preload_ingredients(self):
+        pass
+
+    def ingredient_exists(self, ingredient_name):
+
+        if ingredient_name in self.ingredients:
+            return True
+
+        ingredient_query_set = Ingredient.objects.extra(where=['name=%s'], params=[ingredient_name])
+
+        if ingredient_query_set.count() > 1:
+            print "found the same ingredient more than once: " + ingredient_name
+
+        self.ingredients.append(ingredient_name)
+
+        return ingredient_query_set.count() > 0
+
+    @staticmethod
+    def element_exists(name_to_search, orm_class, element_buffer=[]):
+        if name_to_search in element_buffer:
+            return True
+
+        query_set = orm_class.objects.extra(where=['name=%s'], params=[name_to_search])
+
+        if query_set.count() > 1:
+            print "found the same ingredient more than once: " + name_to_search
+
+        element_buffer.append(name_to_search)
+
+        return query_set.count() > 0
+
