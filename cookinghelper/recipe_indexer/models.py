@@ -34,7 +34,10 @@ class IngredientRecipe(models.Model):
 
 
 class Category(models.Model):
-    recipe = models.ForeignKey(Recipe)
-    book = models.ForeignKey(Book)
     name = models.CharField(max_length=256)
+
+
+class CategoryRecipe(models.Model):
+    recipe = models.ForeignKey(Recipe)
+    category = models.ForeignKey(Category)
 

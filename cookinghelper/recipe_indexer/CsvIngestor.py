@@ -37,9 +37,6 @@ class Ingestor:
 
             self.save_book(element)
             self.save_recipe(element)
-            # Recipe.objects.all()
-            # self.save_ingredients(element, "")
-
 
     def save_book(self, element):
 
@@ -59,7 +56,10 @@ class Ingestor:
             rating=element[self.recipe_rate_col] if element[self.recipe_rate_col] is not '' else 0)
 
         recipe.save()
-        self.recipes.append(Recipe.objects.latest("id"))
+        recipe = Recipe.objects.latest("id")
+        self.save_ingredients(element, recipe)
+        self.save_category(element, recipe)
+        self.recipes.append(recipe)
 
     def save_page(self, element):
         page = BookRecipe(book=self.books[element[self.isbn_col]], recipe=Recipe.objects.latest("id"),
@@ -72,14 +72,26 @@ class Ingestor:
 
         for ingredient_name in ingredients:
 
-            if self.element_exists(ingredient_name, Ingredient, self.ingredients):
-                ingredient = Ingredient(name=ingredient_name)
+            if not self.element_exists(ingredient_name, Ingredient, self.ingredients):
+                ingredient = Ingredient(name=ingredient_name.lower().strip())
                 ingredient.save()
 
-            IngredientRecipe(ingredient=Ingredient.objects.latest("id"), recipe=recipe)
+            ingredient_recipe = IngredientRecipe(ingredient=Ingredient.objects.latest("id"), recipe=recipe)
+            ingredient_recipe.save()
 
-    def save_category(self, element):
-        pass
+    def save_category(self, element, recipe):
+        categories = element[self.recipe_cat_col].split(";")
+        for category_name in categories:
+
+            if len(category_name) == 0:
+                continue
+
+            if not self.element_exists(category_name, Category, self.categories):
+                category = Category(name=category_name.lower().strip())
+                category.save()
+
+            category_recipe = CategoryRecipe(category=Category.objects.latest("id"), recipe=recipe)
+            category_recipe.save()
 
     @staticmethod
     def fetch():
@@ -97,19 +109,19 @@ class Ingestor:
     def preload_ingredients(self):
         pass
 
-    def ingredient_exists(self, ingredient_name):
-
-        if ingredient_name in self.ingredients:
-            return True
-
-        ingredient_query_set = Ingredient.objects.extra(where=['name=%s'], params=[ingredient_name])
-
-        if ingredient_query_set.count() > 1:
-            print "found the same ingredient more than once: " + ingredient_name
-
-        self.ingredients.append(ingredient_name)
-
-        return ingredient_query_set.count() > 0
+    # def ingredient_exists(self, ingredient_name):
+    #
+    #     if ingredient_name in self.ingredients:
+    #         return True
+    #
+    #     ingredient_query_set = Ingredient.objects.extra(where=['name=%s'], params=[ingredient_name])
+    #
+    #     if ingredient_query_set.count() > 1:
+    #         print "found the same ingredient more than once: " + ingredient_name
+    #
+    #     self.ingredients.append(ingredient_name)
+    #
+    #     return ingredient_query_set.count() > 0
 
     @staticmethod
     def element_exists(name_to_search, orm_class, element_buffer=[]):
