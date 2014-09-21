@@ -35,34 +35,34 @@ class Ingestor:
 
             element = line[:-1].split(",")
 
-            # self.save_book(element)
-            # self.save_recipe(element)
-            Recipe.objects.all()
-            self.save_ingredients(element, "")
+            self.save_book(element)
+            self.save_recipe(element)
+            # Recipe.objects.all()
+            # self.save_ingredients(element, "")
 
 
     def save_book(self, element):
 
         if element[self.isbn_col] not in self.books:
-            book = models.Book(isbn=element[self.isbn_col], title=element[self.title_col])
+            book = Book(isbn=element[self.isbn_col], title=element[self.title_col])
             book.save()
-            book = models.Book.objects.latest('id')
-            self.books[element[self.isbn_col]] = self.save_book(element)
+            book = Book.objects.latest('id')
+            self.books[element[self.isbn_col]] = book
             return book
 
         return None
 
     def save_recipe(self, element):
-        recipe = models.Recipe(
+        recipe = Recipe(
             title=element[self.recipe_col],
             book=self.books[element[self.isbn_col]],
             rating=element[self.recipe_rate_col] if element[self.recipe_rate_col] is not '' else 0)
 
         recipe.save()
-        self.recipes.append(models.Recipe.objects.latest("id"))
+        self.recipes.append(Recipe.objects.latest("id"))
 
     def save_page(self, element):
-        page = models.BookRecipe(book=self.books[element[self.isbn_col]], recipe=models.Recipe.objects.latest("id"),
+        page = BookRecipe(book=self.books[element[self.isbn_col]], recipe=Recipe.objects.latest("id"),
                                  page=element[self.page_col])
         page.save()
 
@@ -83,10 +83,10 @@ class Ingestor:
 
     @staticmethod
     def fetch():
-        total_books = models.Book.objects.count()
+        total_books = Book.objects.count()
         print total_books
 
-        recipes = models.Recipe.objects.all()
+        recipes = Recipe.objects.all()
 
         for r in recipes:
             print unicode(r.__str__())
