@@ -11,6 +11,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=256)
     book = models.ForeignKey(Book)
     rating = models.IntegerField(default=0)
+    page = models.IntegerField(default=-1)
 
     def __str__(self):
         return "recipe " + self.title + " from " + self.book.isbn

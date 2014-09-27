@@ -3,7 +3,6 @@ __author__ = 'alacambra'
 
 from models import *
 
-
 class Ingestor:
 
     isbn_col = 0
@@ -55,14 +54,15 @@ class Ingestor:
             rating=element[self.recipe_rate_col] if element[self.recipe_rate_col] is not '' else 0)
 
         recipe.save()
+        self.recipes[element[self.recipe_title_col]] = recipe
+
         self.save_ingredients(element, recipe)
         self.save_category(element, recipe)
-        self.recipes[element[self.recipe_title_col]] = recipe
+        self.save_page(element, recipe)
 
     def save_page(self, element, recipe):
         page = BookRecipe(
             book=self.books[element[self.isbn_col]], recipe=recipe, page=element[self.page_col])
-
         page.save()
 
     def save_ingredients(self, element, recipe):
@@ -93,9 +93,6 @@ class Ingestor:
 
             category_recipe = CategoryRecipe(category=self.categories[category_name], recipe=recipe)
             category_recipe.save()
-
-    def get_ingredient(self, ingredient):
-        pass
 
     @staticmethod
     def element_exists(key_to_search, orm_class, key="name", element_buffer={}):
