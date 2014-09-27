@@ -48,6 +48,7 @@ class Ingestor:
         return None
 
     def save_recipe(self, element):
+        print element
         recipe = Recipe(
             title=element[self.recipe_title_col],
             book=self.books[element[self.isbn_col]],
@@ -58,12 +59,6 @@ class Ingestor:
 
         self.save_ingredients(element, recipe)
         self.save_category(element, recipe)
-        self.save_page(element, recipe)
-
-    def save_page(self, element, recipe):
-        page = BookRecipe(
-            book=self.books[element[self.isbn_col]], recipe=recipe, page=element[self.page_col])
-        page.save()
 
     def save_ingredients(self, element, recipe):
         ingredients = element[self.ingredients_col]
@@ -76,23 +71,22 @@ class Ingestor:
                 ingredient.save()
                 self.ingredients[ingredient_name] = ingredient
 
-            ingredient_recipe = IngredientRecipe(ingredient=self.ingredients[ingredient_name], recipe=recipe)
-            ingredient_recipe.save()
+            recipe.ingredients.add(self.ingredients[ingredient_name])
 
     def save_category(self, element, recipe):
         categories = element[self.recipe_cat_col].split(";")
+
         for category_name in categories:
 
             if len(category_name) == 0:
                 continue
 
-            if not self.element_exists(category_name, Category, element_buffer=self.categories):
-                category = Category(name=category_name.lower().strip())
+            if not self.element_exists(category_name, RecipesCategory, element_buffer=self.categories):
+                category = RecipesCategory(name=category_name.lower().strip())
                 category.save()
                 self.categories[category_name] = category
 
-            category_recipe = CategoryRecipe(category=self.categories[category_name], recipe=recipe)
-            category_recipe.save()
+            recipe.categories.add(self.categories[category_name])
 
     @staticmethod
     def element_exists(key_to_search, orm_class, key="name", element_buffer={}):
