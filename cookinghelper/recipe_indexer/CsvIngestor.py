@@ -3,6 +3,7 @@ __author__ = 'alacambra'
 
 from models import *
 
+
 class Ingestor:
 
     isbn_col = 0
@@ -52,7 +53,8 @@ class Ingestor:
         recipe = Recipe(
             title=element[self.recipe_title_col],
             book=self.books[element[self.isbn_col]],
-            rating=element[self.recipe_rate_col] if element[self.recipe_rate_col] is not '' else 0)
+            rating=element[self.recipe_rate_col] if element[self.recipe_rate_col] is not '' else 0,
+            page=element[self.page_col])
 
         recipe.save()
         self.recipes[element[self.recipe_title_col]] = recipe

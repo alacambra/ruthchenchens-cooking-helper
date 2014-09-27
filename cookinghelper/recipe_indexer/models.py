@@ -23,7 +23,8 @@ class Recipe(models.Model):
     categories = models.ManyToManyField(RecipesCategory)
 
     def __str__(self):
-        return "recipe " + self.title + " from " + self.book.isbn
+
+        return unicode("recipe " + self.title + " from " + self.book.isbn)
 
     def __repr__(self):
         return self.__str__()
