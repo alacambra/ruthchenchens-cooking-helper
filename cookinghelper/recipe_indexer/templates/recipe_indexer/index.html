@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>That the indexr</title>
+</head>
+<body>
+{% if ingredients %}
+    <ul>
+        {% for ingredient in ingredients%}
+            <li><a href="/finder/ingredients/{{ ingredient.id }}/">{{ ingredient.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No ingredients are available</p>
+{% endif %}</body>
+</html>
