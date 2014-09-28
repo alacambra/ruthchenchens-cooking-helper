@@ -2,6 +2,7 @@
 __author__ = 'alacambra'
 
 from models import *
+from django.db import IntegrityError
 
 
 class Ingestor:
@@ -38,18 +39,22 @@ class Ingestor:
             self.save_book(element)
             self.save_recipe(element)
 
+        print "all ingested"
+
     def save_book(self, element):
 
-        if element[self.isbn_col] not in self.books:
-            book = Book(isbn=element[self.isbn_col], title=element[self.book_title_col])
-            book.save()
-            self.books[element[self.isbn_col]] = book
-            return book
+        if self.__element_exists__(element[self.isbn_col], Book, "isbn", self.books):
+            return
 
-        return None
+        book = Book(isbn=element[self.isbn_col], title=element[self.book_title_col])
+        book.save()
+        self.books[element[self.isbn_col]] = book
 
     def save_recipe(self, element):
-        print element
+
+        if self.__element_exists__(element[self.recipe_title_col], Recipe, "title", self.recipes):
+            return
+
         recipe = Recipe(
             title=element[self.recipe_title_col],
             book=self.books[element[self.isbn_col]],
@@ -68,10 +73,16 @@ class Ingestor:
 
         for ingredient_name in ingredients:
 
-            if not self.element_exists(ingredient_name, Ingredient, element_buffer=self.ingredients):
-                ingredient = Ingredient(name=ingredient_name.lower().strip())
-                ingredient.save()
-                self.ingredients[ingredient_name] = ingredient
+            ingredient_name = ingredient_name.lower().strip()
+
+            if not self.__element_exists__(ingredient_name, Ingredient, element_buffer=self.ingredients):
+                try:
+                    ingredient = Ingredient(name=ingredient_name)
+                    ingredient.save()
+                    self.ingredients[ingredient_name] = ingredient
+                except IntegrityError:
+                    print self.ingredients
+                    print "ingredient " + ingredient_name + " exists but not found"
 
             recipe.ingredients.add(self.ingredients[ingredient_name])
 
@@ -83,7 +94,7 @@ class Ingestor:
             if len(category_name) == 0:
                 continue
 
-            if not self.element_exists(category_name, RecipesCategory, element_buffer=self.categories):
+            if not self.__element_exists__(category_name, RecipesCategory, element_buffer=self.categories):
                 category = RecipesCategory(name=category_name.lower().strip())
                 category.save()
                 self.categories[category_name] = category
@@ -91,13 +102,15 @@ class Ingestor:
             recipe.categories.add(self.categories[category_name])
 
     @staticmethod
-    def element_exists(key_to_search, orm_class, key="name", element_buffer={}):
+    def __element_exists__(key_to_search, orm_class, key="name", element_buffer={}):
         if key_to_search in element_buffer:
+            # print key_to_search + " found: " + str(element_buffer[key_to_search].id)
             return True
 
         query_set = orm_class.objects.extra(where=[key + '=%s'], params=[key_to_search])
 
         if query_set.count() == 0:
+            # print key_to_search + " not found. Should be saved"
             return False
 
         if query_set.count() > 1:
