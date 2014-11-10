@@ -59,3 +59,7 @@ docs/_build/
 
 db.sqlite3
 settings.py
+
+cookinghelper/data/secret
+cookinghelper/data/client_secret_963685441868-6ffrl5cljq2blsicrfq91vg0f3lrcdv0.apps.googleusercontent.com.json
+cookinghelper/data/My-Project-ebc3e7051faf.json
