@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateRecipeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateRecipeLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{recipeController.selected.id}" title="#{bundle.CreateRecipeTitle_id}" />
+                    <h:outputLabel value="#{bundle.CreateRecipeLabel_title}" for="title" />
+                    <h:inputText id="title" value="#{recipeController.selected.title}" title="#{bundle.CreateRecipeTitle_title}" />
+                    <h:outputLabel value="#{bundle.CreateRecipeLabel_book}" for="book" />
+                    <h:selectOneMenu id="book" value="#{recipeController.selected.book}" title="#{bundle.CreateRecipeTitle_book}" >
+                        <f:selectItems value="#{bookController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateRecipeLabel_rating}" for="rating" />
+                    <h:inputText id="rating" value="#{recipeController.selected.rating}" title="#{bundle.CreateRecipeTitle_rating}" />
+                    <h:outputLabel value="#{bundle.CreateRecipeLabel_page}" for="page" />
+                    <h:inputText id="page" value="#{recipeController.selected.page}" title="#{bundle.CreateRecipeTitle_page}" />
+                    <h:outputLabel value="#{bundle.CreateRecipeLabel_ingredient}" for="ingredient" />
+                    <h:inputText id="ingredient" value="#{recipeController.selected.ingredient}" title="#{bundle.CreateRecipeTitle_ingredient}" />
+                    <h:outputLabel value="#{bundle.CreateRecipeLabel_category}" for="category" />
+                    <h:inputText id="category" value="#{recipeController.selected.category}" title="#{bundle.CreateRecipeTitle_category}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{recipeController.create}" value="#{bundle.CreateRecipeSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{recipeController.prepareList}" value="#{bundle.CreateRecipeShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateRecipeIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

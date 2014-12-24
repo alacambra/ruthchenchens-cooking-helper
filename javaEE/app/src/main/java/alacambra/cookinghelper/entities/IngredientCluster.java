@@ -1,5 +1,6 @@
 package alacambra.cookinghelper.entities;
 
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,14 +16,14 @@ public class IngredientCluster {
     Integer id;
 
     @ManyToMany
-    Ingredient ingredient;
+    Set<Ingredient> ingredients;
 
-    public Ingredient getIngredient() {
-        return ingredient;
+    public Set<Ingredient> getIngredient() {
+        return ingredients;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public void setIngredient(Set<Ingredient> ingredient) {
+        this.ingredients = ingredient;
     }
 
     public Integer getId() {

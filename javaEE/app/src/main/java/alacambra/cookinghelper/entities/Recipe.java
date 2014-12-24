@@ -1,5 +1,6 @@
 package alacambra.cookinghelper.entities;
 
+import java.util.Set;
 import javax.annotation.Generated;
 import javax.persistence.*;
 
@@ -20,10 +21,10 @@ public class Recipe {
     Integer page;
 
     @ManyToMany
-    Ingredient ingredient;
+    Set<Ingredient> ingredients;
 
     @ManyToMany
-    Category category;
+    Set<Category> categories;
 
     public int getId() {
         return id;
@@ -65,20 +66,20 @@ public class Recipe {
         this.page = page;
     }
 
-    public Ingredient getIngredient() {
-        return ingredient;
+    public Set<Ingredient> getIngredient() {
+        return ingredients;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public void setIngredient(Set<Ingredient> ingredient) {
+        this.ingredients = ingredient;
     }
 
-    public Category getCategory() {
-        return category;
+    public Set<Category> getCategory() {
+        return categories;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(Set<Category> category) {
+        this.categories = category;
     }
 
     @Override
