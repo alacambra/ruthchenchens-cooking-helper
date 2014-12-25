@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class BookFacade extends AbstractFacade<Book> {
-    @PersistenceContext(unitName = "alacambra.cookinghelper_app_war_1.0-SNAPSHOTPU")
+    @PersistenceContext(unitName = "ExampleDS")
     private EntityManager em;
 
     @Override
