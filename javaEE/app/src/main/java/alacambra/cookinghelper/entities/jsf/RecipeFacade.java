@@ -10,6 +10,7 @@ import alacambra.cookinghelper.entities.Recipe;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 
 /**
  *
@@ -17,7 +18,8 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class RecipeFacade extends AbstractFacade<Recipe> {
-    @PersistenceContext(unitName = "ExampleDS")
+
+    @PersistenceContext
     private EntityManager em;
 
     @Override

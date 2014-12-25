@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class CategoryFacade extends AbstractFacade<Category> {
-    @PersistenceContext(unitName = "ExampleDS")
+    @PersistenceContext
     private EntityManager em;
 
     @Override

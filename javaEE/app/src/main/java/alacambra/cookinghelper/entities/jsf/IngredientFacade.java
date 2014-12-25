@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class IngredientFacade extends AbstractFacade<Ingredient> {
-    @PersistenceContext(unitName = "ExampleDS")
+    @PersistenceContext
     private EntityManager em;
 
     @Override
