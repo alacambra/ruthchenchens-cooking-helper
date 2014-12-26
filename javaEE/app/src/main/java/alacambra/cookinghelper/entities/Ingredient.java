@@ -1,9 +1,6 @@
 package alacambra.cookinghelper.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by alacambra on 23/12/14.
@@ -11,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Ingredient {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
 
     @Column(unique = true)

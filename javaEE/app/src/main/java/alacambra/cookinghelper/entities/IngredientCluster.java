@@ -1,10 +1,7 @@
 package alacambra.cookinghelper.entities;
 
 import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 /**
  * Created by alacambra on 23/12/14.
@@ -12,7 +9,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class IngredientCluster {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
 
     @ManyToMany
