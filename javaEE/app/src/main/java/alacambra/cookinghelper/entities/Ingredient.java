@@ -6,6 +6,9 @@ import javax.persistence.*;
  * Created by alacambra on 23/12/14.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "ingredient.getByIsbn", query = "from Ingredient where name = :name")
+})
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

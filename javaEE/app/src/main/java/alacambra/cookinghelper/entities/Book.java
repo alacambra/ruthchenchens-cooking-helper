@@ -6,6 +6,9 @@ import javax.persistence.*;
  * Created by alacambra on 23/12/14.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "book.getByIsbn", query = "from Book where isbn = :isbn")
+})
 public class Book {
 
     @Id

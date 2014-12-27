@@ -8,6 +8,9 @@ import javax.persistence.*;
  * Created by alacambra on 23/12/14.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "recipe.getByBookAndTitle", query = "from Recipe where title = :title and book = :Book")
+})
 public class Recipe {
 
     @Id

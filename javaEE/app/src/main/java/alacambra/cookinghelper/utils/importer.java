@@ -1,34 +1,51 @@
 package alacambra.cookinghelper.utils;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.List;
+import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * Created by alacambra on 26/12/14.
  */
 public class Importer {
 
+    final String isbnHeader = "ISBN";
+    final String bookTitleHeader = "Titel";
+    final String bookKeywordsHeader = "HauptschlagwortBuch";
+    final String recipeTitleHeader = "Rezept";
+    final String pageHeader = "Seite";
+    final String ingredientsHeader = "Basiszutaten";
+    final String recipeCategoryHeader = "Kategorie";
+    final String ratingHeader = "Bewertung";
+
     String data;
 
-    public void getData(){
+    public void loadLines(){
 
-        InputStream stream = this.getClass().getClassLoader().getResourceAsStream("receptes1.csv");
-        try{
-            StringWriter writer = new StringWriter();
-            IOUtils.copy(stream, writer);
-            data = writer.toString();
+        String[] headers =
+                {"ISBN", "Titel", "HauptschlagwortBuch", "Rezept", "Seite", "Basiszutaten", "Kategorie", "Bewertung"};
+        String data = null;
+
+        try {
+            data = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("receptes1.csv"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
 
-    public String[] loadLines(String data){
-        return data.split("");
+        Reader in = new StringReader(data);
+        try {
+            for (CSVRecord record : CSVFormat.DEFAULT.withSkipHeaderRecord().parse(in)) {
+                for (String field : record) {
+                    System.out.print("\"" + field + "\", ");
+                }
+                System.out.println();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

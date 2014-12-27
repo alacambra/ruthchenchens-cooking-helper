@@ -7,6 +7,9 @@ import javax.persistence.*;
  * Created by alacambra on 23/12/14.
  */
 @Entity
+//@NamedQueries({
+//        @NamedQuery(name = "ingredientCluster.getByIsbn", query = "from IngredientCluster where isbn = :isbn")
+//})
 public class IngredientCluster {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

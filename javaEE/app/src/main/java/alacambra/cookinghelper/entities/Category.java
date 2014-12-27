@@ -6,6 +6,9 @@ import javax.persistence.*;
  * Created by alacambra on 23/12/14.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "category.getByName", query = "from Category where name = :name")
+})
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
