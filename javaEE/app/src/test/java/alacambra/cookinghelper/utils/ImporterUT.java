@@ -14,7 +14,7 @@ import java.io.Reader;
 import java.io.StringReader;
 
 @RunWith(JUnit4.class)
-public class ImporterTest extends TestCase {
+public class ImporterUT extends TestCase {
 
     Importer importer;
 
