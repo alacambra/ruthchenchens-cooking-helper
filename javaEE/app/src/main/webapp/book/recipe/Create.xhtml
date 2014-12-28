@@ -28,9 +28,9 @@
                     <h:outputLabel value="#{bundle.CreateRecipeLabel_page}" for="page" />
                     <h:inputText id="page" value="#{recipeController.selected.page}" title="#{bundle.CreateRecipeTitle_page}" />
                     <h:outputLabel value="#{bundle.CreateRecipeLabel_ingredient}" for="ingredient" />
-                    <h:inputText id="ingredient" value="#{recipeController.selected.ingredient}" title="#{bundle.CreateRecipeTitle_ingredient}" />
+                    <h:inputText id="ingredient" value="#{recipeController.selected.ingredients}" title="#{bundle.CreateRecipeTitle_ingredient}" />
                     <h:outputLabel value="#{bundle.CreateRecipeLabel_category}" for="category" />
-                    <h:inputText id="category" value="#{recipeController.selected.category}" title="#{bundle.CreateRecipeTitle_category}" />
+                    <h:inputText id="category" value="#{recipeController.selected.categories}" title="#{bundle.CreateRecipeTitle_category}" />
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{recipeController.create}" value="#{bundle.CreateRecipeSaveLink}" />

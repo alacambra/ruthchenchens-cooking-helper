@@ -73,7 +73,7 @@ public class Recipe {
         return ingredients;
     }
 
-    public void setIngredient(Set<Ingredient> ingredient) {
+    public void setIngredients(Set<Ingredient> ingredient) {
         this.ingredients = ingredient;
     }
 
@@ -81,7 +81,7 @@ public class Recipe {
         return categories;
     }
 
-    public void setCategory(Set<Category> category) {
+    public void setCategories(Set<Category> category) {
         this.categories = category;
     }
 

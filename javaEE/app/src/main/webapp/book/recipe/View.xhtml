@@ -26,9 +26,9 @@
                     <h:outputText value="#{bundle.ViewRecipeLabel_page}"/>
                     <h:outputText value="#{recipeController.selected.page}" title="#{bundle.ViewRecipeTitle_page}"/>
                     <h:outputText value="#{bundle.ViewRecipeLabel_ingredient}"/>
-                    <h:outputText value="#{recipeController.selected.ingredient}" title="#{bundle.ViewRecipeTitle_ingredient}"/>
+                    <h:outputText value="#{recipeController.selected.ingredients}" title="#{bundle.ViewRecipeTitle_ingredient}"/>
                     <h:outputText value="#{bundle.ViewRecipeLabel_category}"/>
-                    <h:outputText value="#{recipeController.selected.category}" title="#{bundle.ViewRecipeTitle_category}"/>
+                    <h:outputText value="#{recipeController.selected.categories}" title="#{bundle.ViewRecipeTitle_category}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{recipeController.destroyAndView}" value="#{bundle.ViewRecipeDestroyLink}"/>

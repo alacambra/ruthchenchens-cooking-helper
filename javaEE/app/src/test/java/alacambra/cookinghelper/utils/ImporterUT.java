@@ -23,19 +23,19 @@ public class ImporterUT extends TestCase {
         importer = new Importer();
     }
 
-    @Test
-    public void testLoadLines() throws Exception {
-        InputStream stream = this.getClass().getClassLoader().getResourceAsStream("receptes1.csv");
-        String data = importer.getData(stream);
-        String[] lines = importer.loadLines(data);
-        assertEquals(259, lines.length);
-
-        Reader in = new StringReader(IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("receptes1.csv")));
-        for (CSVRecord record : CSVFormat.DEFAULT.parse(in)) {
-            for (String field : record) {
-                System.out.print("\"" + field + "\", ");
-            }
-            System.out.println();
-        }
-    }
+//    @Test
+//    public void testLoadLines() throws Exception {
+//        InputStream stream = this.getClass().getClassLoader().getResourceAsStream("receptes1.csv");
+//        String data = importer.getData(stream);
+//        String[] lines = importer.loadLines(data);
+//        assertEquals(259, lines.length);
+//
+//        Reader in = new StringReader(IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("receptes1.csv")));
+//        for (CSVRecord record : CSVFormat.DEFAULT.parse(in)) {
+//            for (String field : record) {
+//                System.out.print("\"" + field + "\", ");
+//            }
+//            System.out.println();
+//        }
+//    }
 }

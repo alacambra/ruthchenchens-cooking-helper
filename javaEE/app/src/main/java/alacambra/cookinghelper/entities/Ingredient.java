@@ -7,7 +7,7 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "ingredient.getByIsbn", query = "from Ingredient where name = :name")
+        @NamedQuery(name = "ingredient.getByName", query = "from Ingredient where name = :name")
 })
 public class Ingredient {
     @Id
