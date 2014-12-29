@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditRecipeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditRecipeLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{recipeController.selected.id}" title="#{bundle.EditRecipeTitle_id}" />
+                    <h:outputLabel value="#{bundle.EditRecipeLabel_title}" for="title" />
+                    <h:inputText id="title" value="#{recipeController.selected.title}" title="#{bundle.EditRecipeTitle_title}" />
+                    <h:outputLabel value="#{bundle.EditRecipeLabel_book}" for="book" />
+                    <h:selectOneMenu id="book" value="#{recipeController.selected.book}" title="#{bundle.EditRecipeTitle_book}" >
+                        <f:selectItems value="#{bookController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditRecipeLabel_rating}" for="rating" />
+                    <h:inputText id="rating" value="#{recipeController.selected.rating}" title="#{bundle.EditRecipeTitle_rating}" />
+                    <h:outputLabel value="#{bundle.EditRecipeLabel_page}" for="page" />
+                    <h:inputText id="page" value="#{recipeController.selected.page}" title="#{bundle.EditRecipeTitle_page}" />
+                    <h:outputLabel value="#{bundle.EditRecipeLabel_ingredient}" for="ingredient" />
+                    <h:inputText id="ingredient" value="#{recipeController.selected.ingredients}" title="#{bundle.EditRecipeTitle_ingredient}" />
+                    <h:outputLabel value="#{bundle.EditRecipeLabel_category}" for="category" />
+                    <h:inputText id="category" value="#{recipeController.selected.categories}" title="#{bundle.EditRecipeTitle_category}" />
+                </h:panelGrid>
+                <h:commandLink action="#{recipeController.update}" value="#{bundle.EditRecipeSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditRecipeViewLink}"/>
+                <br />
+                <h:commandLink action="#{recipeController.prepareList}" value="#{bundle.EditRecipeShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditRecipeIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

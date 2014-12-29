@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewRecipeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewRecipeLabel_id}"/>
+                    <h:outputText value="#{recipeController.selected.id}" title="#{bundle.ViewRecipeTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewRecipeLabel_title}"/>
+                    <h:outputText value="#{recipeController.selected.title}" title="#{bundle.ViewRecipeTitle_title}"/>
+                    <h:outputText value="#{bundle.ViewRecipeLabel_book}"/>
+                    <h:outputText value="#{recipeController.selected.book}" title="#{bundle.ViewRecipeTitle_book}"/>
+                    <h:outputText value="#{bundle.ViewRecipeLabel_rating}"/>
+                    <h:outputText value="#{recipeController.selected.rating}" title="#{bundle.ViewRecipeTitle_rating}"/>
+                    <h:outputText value="#{bundle.ViewRecipeLabel_page}"/>
+                    <h:outputText value="#{recipeController.selected.page}" title="#{bundle.ViewRecipeTitle_page}"/>
+                    <h:outputText value="#{bundle.ViewRecipeLabel_ingredient}"/>
+                    <h:outputText value="#{recipeController.selected.ingredients}" title="#{bundle.ViewRecipeTitle_ingredient}"/>
+                    <h:outputText value="#{bundle.ViewRecipeLabel_category}"/>
+                    <h:outputText value="#{recipeController.selected.categories}" title="#{bundle.ViewRecipeTitle_category}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{recipeController.destroyAndView}" value="#{bundle.ViewRecipeDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewRecipeEditLink}"/>
+                <br />
+                <h:commandLink action="#{recipeController.prepareCreate}" value="#{bundle.ViewRecipeCreateLink}" />
+                <br />
+                <h:commandLink action="#{recipeController.prepareList}" value="#{bundle.ViewRecipeShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewRecipeIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
