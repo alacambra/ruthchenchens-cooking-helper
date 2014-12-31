@@ -15,8 +15,10 @@
             </h:panelGroup>
             <h:form>
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.CreateBookLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{bookController.selected.id}" title="#{bundle.CreateBookTitle_id}" />
+                    <h:outputLabel value="#{bundle.CreateBookLabel_title}" for="title" />
+                    <h:inputText id="title" value="#{bookController.selected.title}" title="#{bundle.CreateBookTitle_title}" />
+                    <h:outputLabel value="#{bundle.CreateBookLabel_isbn}" for="isbn" />
+                    <h:inputText id="isbn" value="#{bookController.selected.isbn}" title="#{bundle.CreateBookTitle_isbn}" />
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{bookController.create}" value="#{bundle.CreateBookSaveLink}" />

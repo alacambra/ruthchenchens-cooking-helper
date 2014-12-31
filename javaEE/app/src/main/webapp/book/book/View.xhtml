@@ -17,6 +17,10 @@
                 <h:panelGrid columns="2">
                     <h:outputText value="#{bundle.ViewBookLabel_id}"/>
                     <h:outputText value="#{bookController.selected.id}" title="#{bundle.ViewBookTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewBookLabel_title}"/>
+                    <h:outputText value="#{bookController.selected.title}" title="#{bundle.ViewBookTitle_title}"/>
+                    <h:outputText value="#{bundle.ViewBookLabel_isbn}"/>
+                    <h:outputText value="#{bookController.selected.isbn}" title="#{bundle.ViewBookTitle_isbn}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{bookController.destroyAndView}" value="#{bundle.ViewBookDestroyLink}"/>
