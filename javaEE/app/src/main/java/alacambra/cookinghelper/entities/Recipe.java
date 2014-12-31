@@ -26,7 +26,7 @@ public class Recipe {
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Ingredient> ingredients;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Category> categories;
 
     public int getId() {

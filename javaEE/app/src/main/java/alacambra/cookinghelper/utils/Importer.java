@@ -149,9 +149,9 @@ public class Importer{
         recipe.setIngredients(ingredients);
         recipe.setPage(Integer.parseInt(record.get(pageHeader).length() > 0 ? record.get(pageHeader) : "0"));
         recipe.setRating(Integer.parseInt(record.get(ratingHeader).length() > 0 ? record.get(ratingHeader) : "-1"));
-
+//        System.out.println("inserting recipe: " + recipe.getTitle());
         em.persist(recipe);
-
+//        System.out.println("recipe inserted: " + recipe.getId() + " " + recipe.getTitle());
         return recipe;
     }
 }
