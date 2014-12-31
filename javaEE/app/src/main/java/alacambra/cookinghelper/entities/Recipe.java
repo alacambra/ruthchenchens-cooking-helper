@@ -23,7 +23,7 @@ public class Recipe {
     Integer rating;
     Integer page;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Ingredient> ingredients;
 
     @ManyToMany
