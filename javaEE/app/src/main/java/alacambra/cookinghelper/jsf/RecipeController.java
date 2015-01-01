@@ -48,7 +48,7 @@ public class RecipeController implements Serializable {
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(10) {
+            pagination = new PaginationHelper(50) {
 
                 @Override
                 public int getItemsCount() {
