@@ -1,7 +1,6 @@
 package alacambra.cookinghelper.entities;
 
 import java.util.Set;
-import javax.annotation.Generated;
 import javax.persistence.*;
 
 /**
@@ -9,7 +8,8 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "recipe.getByBookAndTitle", query = "from Recipe where title = :title and book = :Book")
+        @NamedQuery(name = QueryKeys.getRecipeByBookAndTitle,
+                query = "from Recipe where title like :title and book = :book")
 })
 public class Recipe {
 

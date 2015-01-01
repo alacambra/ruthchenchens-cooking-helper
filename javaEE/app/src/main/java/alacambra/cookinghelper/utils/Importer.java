@@ -13,10 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.awt.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -82,6 +84,9 @@ public class Importer{
 
     Book insertBook(CSVRecord record){
         String isbn = record.get(isbnHeader);
+
+        if ( "".equals(isbn) ) return null;
+
         Book book = getEntittyOrNull(em.createNamedQuery(getBookByIsbn, Book.class).setParameter("isbn", isbn));
 
         if(book != null)
@@ -102,6 +107,8 @@ public class Importer{
         for (int i = 0; i < categories.length; i++){
 
             String catName = categories[i].trim().toLowerCase();
+
+            if("".equals(catName)) continue;
 
             Category category = getEntittyOrNull(
                     em.createNamedQuery(getCategoryByName, Category.class).setParameter("name", catName));
@@ -126,6 +133,9 @@ public class Importer{
 
         for (int i = 0; i < ingredients.length; i++){
             String ingredientName = ingredients[i].trim().toLowerCase();
+
+            if ( "".equals(ingredientName)) continue;
+
             Ingredient ingredient = getEntittyOrNull(
                     em.createNamedQuery(getIngredientByName, Ingredient.class).setParameter("name", ingredientName));
 
@@ -143,16 +153,21 @@ public class Importer{
 
     Recipe insertRecipe(CSVRecord record, Book book, Set<Ingredient> ingredients, Set<Category> categories){
 
-        Recipe recipe = new Recipe();
+        Recipe recipe = getEntittyOrNull(
+                em.createNamedQuery(getRecipeByBookAndTitle, Recipe.class)
+                        .setParameter("book", book).setParameter("title", record.get(recipeTitleHeader)));
+
+        if ( recipe != null ) return recipe;
+
+        recipe = new Recipe();
         recipe.setTitle(record.get(recipeTitleHeader));
         recipe.setBook(book);
         recipe.setCategories(categories);
         recipe.setIngredients(ingredients);
         recipe.setPage(Integer.parseInt(record.get(pageHeader).length() > 0 ? record.get(pageHeader) : "0"));
         recipe.setRating(Integer.parseInt(record.get(ratingHeader).length() > 0 ? record.get(ratingHeader) : "-1"));
-//        System.out.println("inserting recipe: " + recipe.getTitle());
         em.persist(recipe);
-//        System.out.println("recipe inserted: " + recipe.getId() + " " + recipe.getTitle());
+
         return recipe;
     }
 }

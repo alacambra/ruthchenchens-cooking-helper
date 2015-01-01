@@ -224,7 +224,8 @@ public class BookController implements Serializable {
             }
             if (object instanceof Book) {
                 Book o = (Book) object;
-                return getStringKey(o.getId());
+//                return getStringKey(o.getId());
+                return o.toString();
             } else {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Book.class.getName());
             }
