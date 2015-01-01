@@ -13,12 +13,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.Serializable;
 import java.io.StringReader;
-import java.util.Collection;
+import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,7 +51,10 @@ public class Importer{
         String data = null;
 
         try {
-            data = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("receptes1.csv"));
+            data = IOUtils.toString(
+                    this.getClass().getClassLoader().getResourceAsStream("receptes1.csv"),
+                    Charset.forName("UTF8"));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
