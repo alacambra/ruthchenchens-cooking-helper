@@ -18,7 +18,7 @@ import javax.transaction.Transactional;
 @Stateless
 @Transactional
 public class RecipeFacade extends AbstractFacade<Recipe> {
-    @PersistenceContext(unitName = "ExampleDS")
+    @PersistenceContext(unitName = "Cookinghelper")
     private EntityManager em;
 
     @Override

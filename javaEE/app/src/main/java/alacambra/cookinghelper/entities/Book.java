@@ -1,6 +1,8 @@
 package alacambra.cookinghelper.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
+
 import static alacambra.cookinghelper.entities.QueryKeys.*;
 
 /**
@@ -8,9 +10,9 @@ import static alacambra.cookinghelper.entities.QueryKeys.*;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = getBookByIsbn , query = "from Book where isbn = :isbn")
+        @NamedQuery(name = getBookByIsbn , query = "SELECT b FROM Book b WHERE isbn = :isbn")
 })
-public class Book {
+public class Book{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
