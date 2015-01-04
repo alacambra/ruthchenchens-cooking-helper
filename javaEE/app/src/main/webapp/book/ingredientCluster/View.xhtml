@@ -24,10 +24,12 @@
                 <h:commandLink action="#{ingredientClusterController.destroyAndView}" value="#{bundle.ViewIngredientClusterDestroyLink}"/>
                 <br />
                 <br />
+                <h:link outcome="Edit" value="#{bundle.ViewIngredientClusterEditLink}"/>
+                <br />
+                <h:commandLink action="#{ingredientClusterController.prepareCreate}" value="#{bundle.ViewIngredientClusterCreateLink}" />
+                <br />
                 <h:commandLink action="#{ingredientClusterController.prepareList}" value="#{bundle.ViewIngredientClusterShowAllLink}"/>
                 <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewIngredientClusterIndexLink}"/>
 
             </h:form>
         </ui:define>
