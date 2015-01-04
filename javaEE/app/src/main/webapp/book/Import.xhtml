@@ -5,12 +5,17 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-    <h:form>
-        <h:commandLink action="#{importerController.beginImport}" value="Import Now!" />
-    </h:form>
-    <br />
-    <h:link outcome="/index" value="#{bundle.ViewRecipeIndexLink}"/>
-</f:view>
+
+<ui:composition template="/template.xhtml">
+    <ui:define name="title">
+        <h:outputText value="Import CSV"></h:outputText>
+    </ui:define>
+    <ui:define name="body">
+        <h:form>
+            <h:commandLink action="#{importerController.beginImport}" value="Import Now!" />
+        </h:form>
+        <br />
+        <h:link outcome="/index" value="#{bundle.ViewRecipeIndexLink}"/>
+    </ui:define>
+</ui:composition>
 </html>
