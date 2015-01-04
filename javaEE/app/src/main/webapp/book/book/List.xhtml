@@ -44,14 +44,10 @@
                             </f:facet>
                             <h:commandLink action="#{bookController.prepareView}" value="#{bundle.ListBookViewLink}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{bookController.prepareEdit}" value="#{bundle.ListBookEditLink}"/>
-                            <h:outputText value=" "/>
                             <h:commandLink action="#{bookController.destroy}" value="#{bundle.ListBookDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                <br />
-                <h:commandLink action="#{bookController.prepareCreate}" value="#{bundle.ListBookCreateLink}"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.ListBookIndexLink}"/>

@@ -68,14 +68,10 @@
                             </f:facet>
                             <h:commandLink action="#{recipeController.prepareView}" value="#{bundle.ListRecipeViewLink}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{recipeController.prepareEdit}" value="#{bundle.ListRecipeEditLink}"/>
-                            <h:outputText value=" "/>
                             <h:commandLink action="#{recipeController.destroy}" value="#{bundle.ListRecipeDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                <br />
-                <h:commandLink action="#{recipeController.prepareCreate}" value="#{bundle.ListRecipeCreateLink}"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.ListRecipeIndexLink}"/>

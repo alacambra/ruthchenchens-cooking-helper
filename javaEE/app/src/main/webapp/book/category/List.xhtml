@@ -38,14 +38,10 @@
                             </f:facet>
                             <h:commandLink action="#{categoryController.prepareView}" value="#{bundle.ListCategoryViewLink}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{categoryController.prepareEdit}" value="#{bundle.ListCategoryEditLink}"/>
-                            <h:outputText value=" "/>
                             <h:commandLink action="#{categoryController.destroy}" value="#{bundle.ListCategoryDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                <br />
-                <h:commandLink action="#{categoryController.prepareCreate}" value="#{bundle.ListCategoryCreateLink}"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.ListCategoryIndexLink}"/>

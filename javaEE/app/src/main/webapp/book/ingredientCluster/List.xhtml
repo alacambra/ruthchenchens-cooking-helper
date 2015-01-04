@@ -38,14 +38,10 @@
                             </f:facet>
                             <h:commandLink action="#{ingredientClusterController.prepareView}" value="#{bundle.ListIngredientClusterViewLink}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{ingredientClusterController.prepareEdit}" value="#{bundle.ListIngredientClusterEditLink}"/>
-                            <h:outputText value=" "/>
                             <h:commandLink action="#{ingredientClusterController.destroy}" value="#{bundle.ListIngredientClusterDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                <br />
-                <h:commandLink action="#{ingredientClusterController.prepareCreate}" value="#{bundle.ListIngredientClusterCreateLink}"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.ListIngredientClusterIndexLink}"/>
