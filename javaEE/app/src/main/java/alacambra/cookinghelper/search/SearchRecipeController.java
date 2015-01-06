@@ -15,7 +15,9 @@ import javax.inject.Named;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -27,6 +29,9 @@ public class SearchRecipeController implements Serializable{
 
     private PaginationHelper pagination;
     private DataModel items = null;
+    private String ingredients;
+    private String categories;
+    private List<Recipe> recipes;
 
     @EJB
     private SearchRecipeFacade facade;
@@ -51,13 +56,33 @@ public class SearchRecipeController implements Serializable{
         return pagination;
     }
 
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
+
+    public void setCategories(String categories) {
+        this.categories = categories;
+    }
+
     public void createCriteriaAllORs(){
-        String categories;
-        String ingredients;
-        categories = "";
-        ingredients = "k;l;t";
-        String[] cats = categories.split(";");
-        String[] ingrs = ingredients.split(";");
+        String[] cats = categories.toLowerCase().split(";");
+        String[] ingrs = ingredients.toLowerCase().split(";");
 
         EntityType<Recipe> recipeMetamodel = facade.getEntityManager().getMetamodel().entity(Recipe.class);
         EntityType<Ingredient> ingredientMetamodel = facade.getEntityManager().getMetamodel().entity(Ingredient.class);
@@ -67,29 +92,93 @@ public class SearchRecipeController implements Serializable{
         CriteriaBuilder cb = facade.getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Recipe> q = cb.createQuery(Recipe.class);
         Root<Recipe> recipes = q.from(Recipe.class);
-        Join<Recipe, Ingredient> ing = recipes.join(recipeMetamodel.getSet("ingredients", Ingredient.class));
-        Join<Recipe, Category> cat = recipes.join(recipeMetamodel.getSet("categories", Category.class));
 
         Predicate[] ingOr = new Predicate[ingrs.length];
-        Predicate[] catOr = new Predicate[ingrs.length];
+        Predicate[] catOr = new Predicate[cats.length];
+        Set<Predicate> predicates = new HashSet<>();
 
-        int totalOrs = ingOr.length == 0 || ingrs[0].equals("") ? 0 : 1;
-        totalOrs = catOr.length == 0 || cats[0].equals("") ? totalOrs : totalOrs + 1;
-
-        Predicate[] allOr = new Predicate[totalOrs];
-        for (int i = 0; i<ingOr.length && !ingrs[i].equals("") ;i++){
-            ingOr[i] = cb.like((Expression<String>) ing.get(ingredientMetamodel.getSingularAttribute("name")), "%" + ingrs[i] + "%");
-            allOr[0] = cb.or(ingOr);
+        if(!criteriaIsEmpty(ingrs)) {
+            Join<Recipe, Ingredient> ing = recipes.join(recipeMetamodel.getSet("ingredients", Ingredient.class));
+            for (int i = 0; i<ingOr.length && !ingrs[i].equals("") ;i++){
+                ingOr[i] = cb.like((Expression<String>) ing.get(ingredientMetamodel.getSingularAttribute("name")), "%" + ingrs[i].trim() + "%");
+            }
+            predicates.add(cb.or(ingOr));
         }
 
-        for (int i = 0; i<catOr.length && !cats[i].equals("") ;i++){
-            catOr[i] = cb.like((Expression<String>) cat.get(categoryMetamodel.getSingularAttribute("name")), "%" + cats[i] + "%");
-            allOr[1] = cb.or(catOr);
+        if(!criteriaIsEmpty(cats)) {
+            Join<Recipe, Category> cat = recipes.join(recipeMetamodel.getSet("categories", Category.class));
+            for (int i = 0; i<catOr.length && !cats[i].equals("") ;i++){
+                catOr[i] = cb.like((Expression<String>) cat.get(categoryMetamodel.getSingularAttribute("name")), "%" + cats[i].trim() + "%");
+            }
+            predicates.add(cb.or(catOr));
+        }
+
+        Predicate[] allOr = new Predicate[predicates.size()];
+
+        int i = 0;
+        for(Predicate p : predicates){
+            allOr[i] = p;
+            i++;
         }
 
         q.select(recipes).where(allOr);
 
-        System.out.println(facade.getEntityManager().createQuery(q).getResultList());
+        this.recipes = facade.getEntityManager().createQuery(q).getResultList();
+    }
+
+    public Integer getTotalRecipesFound(){
+        if (recipes == null) return 0;
+
+        return recipes.size();
+    }
+
+    public void createCriteriaAllANDs(){
+        String[] cats = categories.toLowerCase().split(";");
+        String[] ingrs = ingredients.toLowerCase().split(";");
+
+        EntityType<Recipe> recipeMetamodel = facade.getEntityManager().getMetamodel().entity(Recipe.class);
+        EntityType<Ingredient> ingredientMetamodel = facade.getEntityManager().getMetamodel().entity(Ingredient.class);
+        EntityType<Category> categoryMetamodel = facade.getEntityManager().getMetamodel().entity(Category.class);
+
+
+        CriteriaBuilder cb = facade.getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Recipe> q = cb.createQuery(Recipe.class);
+        Root<Recipe> recipes = q.from(Recipe.class);
+
+        Predicate[] ingOr = new Predicate[ingrs.length];
+        Predicate[] catOr = new Predicate[cats.length];
+        Set<Predicate> predicates = new HashSet<>();
+
+        if(!criteriaIsEmpty(ingrs)) {
+
+            for (int i = 0; i<ingOr.length && !ingrs[i].equals("") ;i++){
+                Join<Recipe, Ingredient> ing = recipes.join(recipeMetamodel.getSet("ingredients", Ingredient.class));
+                predicates.add(cb.like((Expression<String>) ing.get(ingredientMetamodel.getSingularAttribute("name")), "%" + ingrs[i].trim() + "%"));
+            }
+        }
+
+        if(!criteriaIsEmpty(cats)) {
+            for (int i = 0; i<catOr.length && !cats[i].equals("") ;i++){
+                Join<Recipe, Category> cat = recipes.join(recipeMetamodel.getSet("categories", Category.class));
+                predicates.add(cb.like((Expression<String>) cat.get(categoryMetamodel.getSingularAttribute("name")), "%" + cats[i].trim() + "%"));
+            }
+        }
+
+        Predicate[] allAND = new Predicate[predicates.size()];
+
+        int i = 0;
+        for(Predicate p : predicates){
+            allAND[i] = p;
+            i++;
+        }
+
+        q.select(recipes).where(allAND);
+
+        this.recipes = facade.getEntityManager().createQuery(q).getResultList();
+    }
+
+    private Boolean criteriaIsEmpty(String[] criteriaParams){
+        return criteriaParams.length == 0 || criteriaParams[0].equals("");
     }
 
     public DataModel getItems() {
