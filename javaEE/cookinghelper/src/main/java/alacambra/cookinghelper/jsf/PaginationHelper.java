@@ -1,4 +1,4 @@
-package alacambra.cookinghelper.jsf.util;
+package alacambra.cookinghelper.jsf;
 
 import javax.faces.model.DataModel;
 import javax.persistence.criteria.CriteriaQuery;

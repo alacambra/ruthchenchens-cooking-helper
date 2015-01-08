@@ -1,16 +1,14 @@
 package alacambra.cookinghelper.search;
 
-import alacambra.cookinghelper.beans.AbstractFacade;
-import alacambra.cookinghelper.entities.Category;
-import alacambra.cookinghelper.entities.Ingredient;
-import alacambra.cookinghelper.entities.Recipe;
-import alacambra.cookinghelper.jsf.util.PaginationHelper;
+import alacambra.cookinghelper.category.Category;
+import alacambra.cookinghelper.ingredient.Ingredient;
+import alacambra.cookinghelper.recipe.Recipe;
+import alacambra.cookinghelper.jsf.PaginationHelper;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;

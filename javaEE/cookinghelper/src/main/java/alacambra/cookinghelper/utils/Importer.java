@@ -1,9 +1,9 @@
 package alacambra.cookinghelper.utils;
 
-import alacambra.cookinghelper.entities.Book;
-import alacambra.cookinghelper.entities.Category;
-import alacambra.cookinghelper.entities.Ingredient;
-import alacambra.cookinghelper.entities.Recipe;
+import alacambra.cookinghelper.book.Book;
+import alacambra.cookinghelper.category.Category;
+import alacambra.cookinghelper.ingredient.Ingredient;
+import alacambra.cookinghelper.recipe.Recipe;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.IOUtils;
@@ -13,16 +13,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.awt.*;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import static alacambra.cookinghelper.entities.QueryKeys.*;
+import static alacambra.cookinghelper.QueryKeys.*;
 
 
 /**

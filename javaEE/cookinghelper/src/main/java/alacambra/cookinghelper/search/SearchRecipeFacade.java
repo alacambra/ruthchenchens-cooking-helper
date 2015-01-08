@@ -5,8 +5,8 @@
  */
 package alacambra.cookinghelper.search;
 
-import alacambra.cookinghelper.beans.AbstractFacade;
-import alacambra.cookinghelper.entities.Book;
+import alacambra.cookinghelper.AbstractFacade;
+import alacambra.cookinghelper.book.Book;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

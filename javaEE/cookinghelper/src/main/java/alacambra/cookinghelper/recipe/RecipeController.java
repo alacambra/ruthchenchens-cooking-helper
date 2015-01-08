@@ -1,9 +1,7 @@
-package alacambra.cookinghelper.jsf;
+package alacambra.cookinghelper.recipe;
 
-import alacambra.cookinghelper.entities.Category;
-import alacambra.cookinghelper.jsf.util.JsfUtil;
-import alacambra.cookinghelper.jsf.util.PaginationHelper;
-import alacambra.cookinghelper.beans.CategoryFacade;
+import alacambra.cookinghelper.jsf.JsfUtil;
+import alacambra.cookinghelper.jsf.PaginationHelper;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -17,30 +15,32 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.transaction.Transactional;
 
-@Named("categoryController")
+@Named("recipeController")
 @SessionScoped
-public class CategoryController implements Serializable {
+@Transactional
+public class RecipeController implements Serializable {
 
-    private Category current;
+    private Recipe current;
     private DataModel items = null;
     @EJB
-    private alacambra.cookinghelper.beans.CategoryFacade ejbFacade;
+    private alacambra.cookinghelper.recipe.RecipeFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public CategoryController() {
+    public RecipeController() {
     }
 
-    public Category getSelected() {
+    public Recipe getSelected() {
         if (current == null) {
-            current = new Category();
+            current = new Recipe();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private CategoryFacade getFacade() {
+    private RecipeFacade getFacade() {
         return ejbFacade;
     }
 
@@ -68,13 +68,13 @@ public class CategoryController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Category) getItems().getRowData();
+        current = (Recipe) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Category();
+        current = new Recipe();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -82,7 +82,7 @@ public class CategoryController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CategoryCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipeCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -91,7 +91,7 @@ public class CategoryController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Category) getItems().getRowData();
+        current = (Recipe) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -99,7 +99,7 @@ public class CategoryController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CategoryUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipeUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -108,7 +108,7 @@ public class CategoryController implements Serializable {
     }
 
     public String destroy() {
-        current = (Category) getItems().getRowData();
+        current = (Recipe) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -132,7 +132,7 @@ public class CategoryController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CategoryDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RecipeDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -188,30 +188,30 @@ public class CategoryController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Category getCategory(java.lang.Integer id) {
+    public Recipe getRecipe(int id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Category.class)
-    public static class CategoryControllerConverter implements Converter {
+    @FacesConverter(forClass = Recipe.class)
+    public static class RecipeControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            CategoryController controller = (CategoryController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "categoryController");
-            return controller.getCategory(getKey(value));
+            RecipeController controller = (RecipeController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "recipeController");
+            return controller.getRecipe(getKey(value));
         }
 
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
+        int getKey(String value) {
+            int key;
+            key = Integer.parseInt(value);
             return key;
         }
 
-        String getStringKey(java.lang.Integer value) {
+        String getStringKey(int value) {
             StringBuilder sb = new StringBuilder();
             sb.append(value);
             return sb.toString();
@@ -222,11 +222,11 @@ public class CategoryController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Category) {
-                Category o = (Category) object;
+            if (object instanceof Recipe) {
+                Recipe o = (Recipe) object;
                 return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Category.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Recipe.class.getName());
             }
         }
 

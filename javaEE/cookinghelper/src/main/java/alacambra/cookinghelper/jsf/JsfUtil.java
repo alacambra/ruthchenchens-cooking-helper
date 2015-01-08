@@ -1,4 +1,4 @@
-package alacambra.cookinghelper.jsf.util;
+package alacambra.cookinghelper.jsf;
 
 import java.util.List;
 import javax.faces.application.FacesMessage;

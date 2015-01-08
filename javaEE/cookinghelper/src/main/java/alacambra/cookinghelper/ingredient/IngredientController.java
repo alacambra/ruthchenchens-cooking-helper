@@ -1,9 +1,8 @@
-package alacambra.cookinghelper.jsf;
+package alacambra.cookinghelper.ingredient;
 
-import alacambra.cookinghelper.entities.Book;
-import alacambra.cookinghelper.jsf.util.JsfUtil;
-import alacambra.cookinghelper.jsf.util.PaginationHelper;
-import alacambra.cookinghelper.beans.BookFacade;
+import alacambra.cookinghelper.jsf.JsfUtil;
+import alacambra.cookinghelper.jsf.PaginationHelper;
+
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -18,29 +17,29 @@ import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 
-@Named("bookController")
+@Named("ingredientController")
 @SessionScoped
-public class BookController implements Serializable {
+public class IngredientController implements Serializable {
 
-    private Book current;
+    private Ingredient current;
     private DataModel items = null;
     @EJB
-    private alacambra.cookinghelper.beans.BookFacade ejbFacade;
+    private alacambra.cookinghelper.ingredient.IngredientFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
-    public BookController() {
+    public IngredientController() {
     }
 
-    public Book getSelected() {
+    public Ingredient getSelected() {
         if (current == null) {
-            current = new Book();
+            current = new Ingredient();
             selectedItemIndex = -1;
         }
         return current;
     }
 
-    private BookFacade getFacade() {
+    private IngredientFacade getFacade() {
         return ejbFacade;
     }
 
@@ -68,13 +67,13 @@ public class BookController implements Serializable {
     }
 
     public String prepareView() {
-        current = (Book) getItems().getRowData();
+        current = (Ingredient) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "View";
     }
 
     public String prepareCreate() {
-        current = new Book();
+        current = new Ingredient();
         selectedItemIndex = -1;
         return "Create";
     }
@@ -82,7 +81,7 @@ public class BookController implements Serializable {
     public String create() {
         try {
             getFacade().create(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookCreated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("IngredientCreated"));
             return prepareCreate();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -91,7 +90,7 @@ public class BookController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (Book) getItems().getRowData();
+        current = (Ingredient) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
@@ -99,7 +98,7 @@ public class BookController implements Serializable {
     public String update() {
         try {
             getFacade().edit(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookUpdated"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("IngredientUpdated"));
             return "View";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -108,7 +107,7 @@ public class BookController implements Serializable {
     }
 
     public String destroy() {
-        current = (Book) getItems().getRowData();
+        current = (Ingredient) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         performDestroy();
         recreatePagination();
@@ -132,7 +131,7 @@ public class BookController implements Serializable {
     private void performDestroy() {
         try {
             getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookDeleted"));
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("IngredientDeleted"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
@@ -188,21 +187,21 @@ public class BookController implements Serializable {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
 
-    public Book getBook(java.lang.Integer id) {
+    public Ingredient getIngredient(java.lang.Integer id) {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Book.class)
-    public static class BookControllerConverter implements Converter {
+    @FacesConverter(forClass = Ingredient.class)
+    public static class IngredientControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            BookController controller = (BookController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "bookController");
-            return controller.getBook(getKey(value));
+            IngredientController controller = (IngredientController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "ingredientController");
+            return controller.getIngredient(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -222,12 +221,11 @@ public class BookController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Book) {
-                Book o = (Book) object;
-//                return getStringKey(o.getId());
-                return o.toString();
+            if (object instanceof Ingredient) {
+                Ingredient o = (Ingredient) object;
+                return getStringKey(o.getId());
             } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Book.class.getName());
+                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Ingredient.class.getName());
             }
         }
 
