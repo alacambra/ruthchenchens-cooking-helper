@@ -1,6 +1,7 @@
 package alacambra.cookinghelper.jsf.util;
 
 import javax.faces.model.DataModel;
+import javax.persistence.criteria.CriteriaQuery;
 
 public abstract class PaginationHelper {
 
@@ -14,6 +15,10 @@ public abstract class PaginationHelper {
     public abstract int getItemsCount();
 
     public abstract DataModel createPageDataModel();
+
+    public DataModel createPageDataModel(CriteriaQuery cq){
+        throw new RuntimeException("not implemented");
+    };
 
     public int getPageFirstItem() {
         return page * pageSize;
@@ -30,7 +35,6 @@ public abstract class PaginationHelper {
         }
         return i;
     }
-
     public boolean isHasNextPage() {
         return (page + 1) * pageSize + 1 <= getItemsCount();
     }

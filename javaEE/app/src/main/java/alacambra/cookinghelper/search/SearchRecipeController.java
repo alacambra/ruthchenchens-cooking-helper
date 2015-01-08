@@ -15,10 +15,7 @@ import javax.inject.Named;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by alacambra on 1/4/15.
@@ -38,7 +35,7 @@ public class SearchRecipeController implements Serializable{
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(30) {
+            pagination = new PaginationHelper(3000) {
 
                 @Override
                 public int getItemsCount() {
@@ -47,8 +44,13 @@ public class SearchRecipeController implements Serializable{
 
                 @Override
                 public DataModel createPageDataModel() {
+                    return new ListDataModel(new ArrayList());
+                }
+
+                @Override
+                public DataModel createPageDataModel(CriteriaQuery cq) {
                     return new ListDataModel(getFacade().findRange(
-                            new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()})
+                            new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}, cq)
                     );
                 }
             };
@@ -122,14 +124,7 @@ public class SearchRecipeController implements Serializable{
         }
 
         q.select(recipes).where(allOr);
-
-        this.recipes = facade.getEntityManager().createQuery(q).getResultList();
-    }
-
-    public Integer getTotalRecipesFound(){
-        if (recipes == null) return 0;
-
-        return recipes.size();
+        items = getPagination().createPageDataModel(q);
     }
 
     public void createCriteriaAllANDs(){
@@ -174,7 +169,7 @@ public class SearchRecipeController implements Serializable{
 
         q.select(recipes).where(allAND);
 
-        this.recipes = facade.getEntityManager().createQuery(q).getResultList();
+        items = getPagination().createPageDataModel(q);
     }
 
     private Boolean criteriaIsEmpty(String[] criteriaParams){

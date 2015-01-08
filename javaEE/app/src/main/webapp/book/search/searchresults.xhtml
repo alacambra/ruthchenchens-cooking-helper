@@ -29,52 +29,62 @@
                 <h:commandButton value="Go!" actionListener="#{search.createCriteriaAllANDs()}"/>
             </h:form>
         </h:panelGrid>
-        <h:outputText value="Search results"></h:outputText>
-        <h:outputFormat value="total recipes found:#{search.totalRecipesFound}"></h:outputFormat>
-        <h:dataTable id="recipes" value="#{search.recipes}" var="item"  border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListRecipeTitle_id}"/>
-                </f:facet>
-                <h:outputText value="#{item.id}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListRecipeTitle_title}"/>
-                </f:facet>
-                <h:outputText value="#{item.title}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListRecipeTitle_book}"/>
-                </f:facet>
-                <h:outputText value="#{item.book}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListRecipeTitle_rating}"/>
-                </f:facet>
-                <h:outputText value="#{item.rating}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListRecipeTitle_page}"/>
-                </f:facet>
-                <h:outputText value="#{item.page}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListRecipeTitle_ingredient}"/>
-                </f:facet>
-                <h:outputText value="#{item.ingredient}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="#{bundle.ListRecipeTitle_category}"/>
-                </f:facet>
-                <h:outputText value="#{item.category}"/>
-            </h:column>
-        </h:dataTable>
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListIngredientEmpty}" rendered="#{search.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{search.items.rowCount > 0}">
+                <h:outputText value="#{search.pagination.pageFirstItem + 1}..#{search.pagination.pageLastItem + 1}/#{search.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{search.previous}" value="#{bundle.Previous} #{search.pagination.pageSize}" rendered="#{search.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{search.next}" value="#{bundle.Next} #{search.pagination.pageSize}" rendered="#{search.pagination.hasNextPage}"/>&nbsp;
+                <h:dataTable value="#{search.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRecipeTitle_id}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRecipeTitle_title}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.title}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRecipeTitle_book}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.book}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRecipeTitle_rating}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rating}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRecipeTitle_page}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.page}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRecipeTitle_ingredient}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.ingredient}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListRecipeTitle_category}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.category}"/>
+                    </h:column>
+                </h:dataTable>
+                <br/>
+            </h:panelGroup>
+        </h:form>
     </ui:define>
 </ui:composition>
 

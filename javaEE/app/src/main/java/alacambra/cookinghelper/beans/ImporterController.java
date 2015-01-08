@@ -1,4 +1,4 @@
-package alacambra.cookinghelper.entities.jsf;
+package alacambra.cookinghelper.beans;
 
 import alacambra.cookinghelper.utils.Importer;
 
