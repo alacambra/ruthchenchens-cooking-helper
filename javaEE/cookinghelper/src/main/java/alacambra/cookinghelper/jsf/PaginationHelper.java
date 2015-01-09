@@ -16,10 +16,6 @@ public abstract class PaginationHelper {
 
     public abstract DataModel createPageDataModel();
 
-    public DataModel createPageDataModel(CriteriaQuery cq){
-        throw new RuntimeException("not implemented");
-    };
-
     public int getPageFirstItem() {
         return page * pageSize;
     }

@@ -1,7 +1,5 @@
 package alacambra.cookinghelper.search;
 
-import alacambra.cookinghelper.category.Category;
-import alacambra.cookinghelper.ingredient.Ingredient;
 import alacambra.cookinghelper.recipe.Recipe;
 import alacambra.cookinghelper.jsf.PaginationHelper;
 
@@ -10,8 +8,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Named;
-import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
 import java.io.Serializable;
 import java.util.*;
 
@@ -26,43 +22,39 @@ public class SearchRecipeController implements Serializable{
     private DataModel items = null;
     private String ingredients;
     private String categories;
-    private List<Recipe> recipes;
     private int lastCriteriaCount = -1;
+    private SearchType searchType;
+    private boolean paginating = false;
 
     @EJB
     private SearchRecipeFacade facade;
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(3000) {
-
-                @Override
-                public int getItemsCount() {
-                    return lastCriteriaCount;
-                }
-
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(new ArrayList());
-                }
-
-                @Override
-                public DataModel createPageDataModel(CriteriaQuery cq) {
-                    return new ListDataModel(getFacade().findRange(
-                            new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}, cq)
-                    );
-                }
-            };
+            pagination = new Paginator(30);
         }
         return pagination;
     }
 
-    public List<Recipe> getRecipes() {
-        return recipes;
-    }
+    class Paginator extends PaginationHelper{
 
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
+        public Paginator(int pageSize) {
+            super(pageSize);
+        }
+
+        @Override
+        public int getItemsCount() {
+            return getFacade().count(facade.getCriteria(true, searchType, categories, ingredients));
+        }
+
+        @Override
+        public DataModel createPageDataModel() {
+            return new ListDataModel(getFacade().findRange(
+                    new int[]{pagination.getPageFirstItem(),
+                            pagination.getPageFirstItem() + pagination.getPageSize()},
+                    facade.getCriteria(false, searchType, categories, ingredients)));
+        }
+
     }
 
     public String getIngredients() {
@@ -82,20 +74,50 @@ public class SearchRecipeController implements Serializable{
     }
 
     public void createCriteriaAllORs(){
-        items = getPagination().createPageDataModel(facade.getCriteria(false, SearchType.OR, categories, ingredients));
-        lastCriteriaCount = getFacade().getTotal(false, SearchType.OR, categories, ingredients);
+        searchType = SearchType.OR;
+        searchTypeChanged();
     }
 
     public void createCriteriaAllANDs(){
-        items = getPagination().createPageDataModel(facade.getCriteria(false, SearchType.AND, categories, ingredients));
-        lastCriteriaCount = getFacade().getTotal(true, SearchType.AND, categories, ingredients);
+        searchType = SearchType.AND;
+        searchTypeChanged();
+    }
+
+    public void searchTypeChanged(){
+        recreateModel();
+        recreatePagination();
+        paginating = true;
     }
 
     public DataModel getItems() {
-        if (items == null) {
+        if(!paginating) {
+            return new ListDataModel(new ArrayList());
+        }
+        if (items == null || !items.iterator().hasNext()) {
             items = getPagination().createPageDataModel();
         }
         return items;
+    }
+
+    private void recreateModel() {
+        items = null;
+    }
+
+    private void recreatePagination() {
+        pagination = null;
+        pagination = getPagination();
+    }
+
+    public String next() {
+        getPagination().nextPage();
+        recreateModel();
+        return "searchresults";
+    }
+
+    public String previous() {
+        getPagination().previousPage();
+        recreateModel();
+        return "searchresults";
     }
 
     public SearchRecipeFacade getFacade() {

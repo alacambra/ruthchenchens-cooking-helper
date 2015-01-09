@@ -25,7 +25,7 @@ import java.util.Set;
  * @author alacambra
  */
 @Stateless
-public class SearchRecipeFacade extends AbstractFacade<Book> {
+public class SearchRecipeFacade extends AbstractFacade<Recipe> {
     @PersistenceContext(unitName = "Cookinghelper")
     private EntityManager em;
 
@@ -35,7 +35,7 @@ public class SearchRecipeFacade extends AbstractFacade<Book> {
     }
 
     public SearchRecipeFacade() {
-        super(Book.class);
+        super(Recipe.class);
     }
 
     public Integer getTotal(boolean count, SearchType searchType, String categories, String ingredients){
@@ -44,6 +44,7 @@ public class SearchRecipeFacade extends AbstractFacade<Book> {
     }
 
     public CriteriaQuery getCriteria(boolean count, SearchType searchType, String categories, String ingredients){
+
         String[] cats = categories.toLowerCase().split(";");
         String[] ingrs = ingredients.toLowerCase().split(";");
 
@@ -81,7 +82,7 @@ public class SearchRecipeFacade extends AbstractFacade<Book> {
         }
 
         if(count){
-            cq.select(cb.count(recipes)).where(allPredicates);
+            cq.select(cb.countDistinct(recipes)).where(allPredicates);
         } else {
             cq.select(recipes).where(allPredicates);
         }
