@@ -43,7 +43,7 @@ public class SearchRecipeFacade extends AbstractFacade<Book> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    CriteriaQuery getCriteria(boolean count, SearchType searchType, String categories, String ingredients){
+    public CriteriaQuery getCriteria(boolean count, SearchType searchType, String categories, String ingredients){
         String[] cats = categories.toLowerCase().split(";");
         String[] ingrs = ingredients.toLowerCase().split(";");
 
