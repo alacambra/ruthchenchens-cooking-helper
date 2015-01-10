@@ -16,7 +16,6 @@ hs_err_pid*
 
 ### NetBeans template
 nbproject/private/
-build/
 nbbuild/
 dist/
 nbdist/
@@ -72,8 +71,8 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
-nb-configuration.xml
 target
 db
 .docker-build.sh.kate-swp
-build/db
+build-scripts/cookinghelper.h2.db
+build-scripts/Dockerfile
