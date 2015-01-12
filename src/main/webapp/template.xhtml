@@ -33,15 +33,18 @@
             </h:form>
         </b:navbarLinks>
     </b:navBar>
-    <h1>
-        <ui:insert name="title">Default Title</ui:insert>
-    </h1>
-    <p>
-        <ui:insert name="body">Default Body</ui:insert>
-    </p>
-    <div>
-        <h:link outcome="/index" value="#{bundle.ViewIngredientClusterIndexLink}"/>
+   <b:container>
+        <h1>
+            <ui:insert name="title">Default Title</ui:insert>
+        </h1>
+   </b:container>
+    <b:container>
+    <div style="margin: auto">
+        <p>
+            <ui:insert name="body">Default Body</ui:insert>
+        </p>
     </div>
+    </b:container>
 </h:body>
 
 </html>

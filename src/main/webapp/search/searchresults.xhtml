@@ -12,25 +12,39 @@
     </ui:define>
     <ui:define name="body">
         <p>Use ";" to separte items</p>
-        <h:panelGrid columns="4">
+        <b:container>
+            <b:row>
+                <b:column span="3">
+                    <h:form>
+                        <label>Some of this categories</label>
+                        <b:inputText value="#{search.categories}">
+                            <f:facet name="append">
+                            </f:facet>
+                        </b:inputText>
+                        <label>with some of this ingredients</label>
+                        <b:inputText value="#{search.ingredients}">
+                            <f:facet name="append">
+                                <b:commandButton value="Search" actionListener="#{search.createCriteriaAllORs()}"/>
+                            </f:facet>
+                        </b:inputText>
+                    </h:form>
+                </b:column>
+                <b:column span="3" offset="1">
+                    <h:form>
+                        <label>All of this categories</label>
+                        <b:inputText value="#{search.categories}">
 
-            <h:form>
-                <label>Some of this categories</label>
-                <h:inputTextarea id="categoriesOR" value="#{search.categories}"></h:inputTextarea>
-                <label>with some of this ingredients</label>
-                <h:inputTextarea id="ingredientsOR" value="#{search.ingredients}"></h:inputTextarea><br />
-                <h:commandButton value="Go!" actionListener="#{search.createCriteriaAllORs()}"/>
-            </h:form>
-        </h:panelGrid>
-        <h:panelGrid columns="4">
-            <h:form>
-                <label>All of this categories</label>
-                <h:inputTextarea id="categoriesAND" value="#{search.categories}"></h:inputTextarea>
-                <label>with all of these ingredients</label>
-                <h:inputTextarea id="ingredientsAND" value="#{search.ingredients}"></h:inputTextarea><br />
-                <h:commandButton value="Go!" actionListener="#{search.createCriteriaAllANDs()}"/>
-            </h:form>
-        </h:panelGrid>
+                        </b:inputText>
+                        <label>with all of these ingredients</label>
+                        <b:inputText value="#{search.ingredients}">
+                            <f:facet name="append">
+                                <b:commandButton value="Search" actionListener="#{search.createCriteriaAllANDs()}"/>
+                            </f:facet>
+                        </b:inputText>
+                    </h:form>
+                </b:column>
+            </b:row>
+        </b:container>
         <h:form styleClass="jsfcrud_list_form">
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>

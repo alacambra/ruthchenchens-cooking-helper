@@ -76,6 +76,3 @@ db
 .docker-build.sh.kate-swp
 build-scripts/cookinghelper.h2.db
 build-scripts/Dockerfile
-build/Dockerfile
-build/cookinghelper.h2.db
-src/main/resources/receptes2.csv
