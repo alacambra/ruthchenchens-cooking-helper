@@ -147,7 +147,7 @@
                     </security>
                 </datasource>
                 <datasource jta="true" jndi-name="java:jboss/datasources/cookinghelper" pool-name="cookinghelper" enabled="true" use-java-context="true" use-ccm="true">
-                    <connection-url>jdbc:h2:file:/opt/jboss/wildfly/cookinghelper</connection-url>
+                    <connection-url>jdbc:h2:file:/opt/jboss/wildfly/cookinghelper/db</connection-url>
                     <driver-class>org.h2.Driver</driver-class>
                     <driver>h2</driver>
                     <security>
