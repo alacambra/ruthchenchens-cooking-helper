@@ -1,4 +1,4 @@
-package alacambra.cookinghelper.jsf;
+package alacambra.cookinghelper.boundary;
 
 import java.util.List;
 import javax.faces.application.FacesMessage;

@@ -1,7 +1,6 @@
-package alacambra.cookinghelper.jsf;
+package alacambra.cookinghelper.boundary;
 
 import javax.faces.model.DataModel;
-import javax.persistence.criteria.CriteriaQuery;
 
 public abstract class PaginationHelper {
 

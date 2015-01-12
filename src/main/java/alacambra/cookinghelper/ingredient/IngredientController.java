@@ -1,7 +1,7 @@
 package alacambra.cookinghelper.ingredient;
 
-import alacambra.cookinghelper.jsf.JsfUtil;
-import alacambra.cookinghelper.jsf.PaginationHelper;
+import alacambra.cookinghelper.boundary.JsfUtil;
+import alacambra.cookinghelper.boundary.PaginationHelper;
 
 
 import java.io.Serializable;

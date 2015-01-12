@@ -1,7 +1,6 @@
 package alacambra.cookinghelper.search;
 
-import alacambra.cookinghelper.recipe.Recipe;
-import alacambra.cookinghelper.jsf.PaginationHelper;
+import alacambra.cookinghelper.boundary.PaginationHelper;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
