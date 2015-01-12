@@ -6,21 +6,23 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
 
-    <ui:composition template="/template.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.ListRecipeTitle}"></h:outputText>
-        </ui:define>
-        <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListRecipeEmpty}" rendered="#{recipeController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{recipeController.items.rowCount > 0}">
-                    <h:outputText value="#{recipeController.pagination.pageFirstItem + 1}..#{recipeController.pagination.pageLastItem + 1}/#{recipeController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{recipeController.previous}" value="#{bundle.Previous} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{recipeController.next}" value="#{bundle.Next} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{recipeController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+<ui:composition template="/template.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{bundle.ListRecipeTitle}"></h:outputText>
+    </ui:define>
+    <ui:define name="body">
+
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListRecipeEmpty}" rendered="#{recipeController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{recipeController.items.rowCount > 0}">
+                <h:outputText value="#{recipeController.pagination.pageFirstItem + 1}..#{recipeController.pagination.pageLastItem + 1}/#{recipeController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{recipeController.previous}" value="#{bundle.Previous} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{recipeController.next}" value="#{bundle.Next} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasNextPage}"/>&nbsp;
+                <div class="table-responsive">
+                    <h:dataTable styleClass="table table-striped" value="#{recipeController.items}" var="item" border="0" cellpadding="2" cellspacing="0"  rules="all">
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRecipeTitle_id}"/>
@@ -68,14 +70,13 @@
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <h:commandLink action="#{recipeController.prepareView}" value="#{bundle.ListRecipeViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{recipeController.destroy}" value="#{bundle.ListRecipeDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
-                </h:panelGroup>
-                <br />
-            </h:form>
-        </ui:define>
-    </ui:composition>
+                </div>
+            </h:panelGroup>
+            <br />
+        </h:form>
+    </ui:define>
+</ui:composition>
 
 </html>

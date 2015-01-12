@@ -2,15 +2,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title><ui:insert name="title">Default Title</ui:insert></title>
+    <title>CookingHelper</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
     <h:outputStylesheet library="css" name="jsfcrud.css"/>
 </h:head>
 
 <h:body>
+    <b:navBar brandHref="#" inverse="true">
+        <b:navbarLinks>
+            <b:navLink outcome="/search/searchresults" value="Search for recipes!!"/>
+            <b:navLink outcome="/book/List" value="Show All Book Items"/>
+            <b:navLink outcome="/category/List" value="Show All Category Items"/>
+            <b:navLink outcome="/ingredient/List" value="Show All Ingredient Items"/>
+            <b:navLink outcome="/recipe/List" value="Show All Recipe Items"/>
+            <b:navLink outcome="/import/import" value="Import list"/>
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <b:inputText value="hello">
+                        <f:facet name="append">
+                            <b:button value="Search" outcome="/search/searchresults"/>
+                        </f:facet>
+                    </b:inputText>
+                </h:panelGrid>
+            </h:form>
+        </b:navbarLinks>
+    </b:navBar>
     <h1>
         <ui:insert name="title">Default Title</ui:insert>
     </h1>
