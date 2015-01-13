@@ -53,53 +53,55 @@
             </h:panelGroup>
             <h:outputText escape="false" value="#{bundle.ListIngredientEmpty}" rendered="#{search.items.rowCount == 0}"/>
             <h:panelGroup rendered="#{search.items.rowCount > 0}">
-                <h:outputText value="#{search.pagination.pageFirstItem + 1}..#{search.pagination.pageLastItem + 1}/#{search.pagination.itemsCount}"/>&nbsp;
-                <h:commandLink action="#{search.previous}" value="#{bundle.Previous} #{search.pagination.pageSize}" rendered="#{search.pagination.hasPreviousPage}"/>&nbsp;
-                <h:commandLink action="#{search.next}" value="#{bundle.Next} #{search.pagination.pageSize}" rendered="#{search.pagination.hasNextPage}"/>&nbsp;
-                <h:dataTable value="#{search.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListRecipeTitle_id}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.id}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListRecipeTitle_title}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.title}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListRecipeTitle_book}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.book}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListRecipeTitle_rating}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.rating}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListRecipeTitle_page}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.page}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListRecipeTitle_ingredient}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.ingredient}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.ListRecipeTitle_category}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.category}"/>
-                    </h:column>
-                </h:dataTable>
+                <h:outputText value="#{recipeController.pagination.pageFirstItem + 1}..#{recipeController.pagination.pageLastItem + 1}/#{recipeController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{recipeController.previous}" value="#{bundle.Previous} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{recipeController.next}" value="#{bundle.Next} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasNextPage}"/>&nbsp;
+                <div class="table-responsive">
+                    <h:dataTable  styleClass="table t-transpa" value="#{recipeController.items}" var="item" border="0" cellpadding="2" cellspacing="0"  rules="all">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_title}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.title}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_book}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.book}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_rating}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rating}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_page}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.page}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_ingredient}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ingredient}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_category}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.category}"/>
+                        </h:column>
+                    </h:dataTable>
+                </div>
                 <br/>
             </h:panelGroup>
         </h:form>
