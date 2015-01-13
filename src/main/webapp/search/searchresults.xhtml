@@ -67,11 +67,11 @@
             </h:panelGroup>
             <h:outputText escape="false" value="#{bundle.ListIngredientEmpty}" rendered="#{search.items.rowCount == 0}"/>
             <h:panelGroup rendered="#{search.items.rowCount > 0}">
-                <h:outputText value="#{recipeController.pagination.pageFirstItem + 1}..#{recipeController.pagination.pageLastItem + 1}/#{recipeController.pagination.itemsCount}"/>&nbsp;
-                <h:commandLink action="#{recipeController.previous}" value="#{bundle.Previous} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasPreviousPage}"/>&nbsp;
-                <h:commandLink action="#{recipeController.next}" value="#{bundle.Next} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasNextPage}"/>&nbsp;
+                <h:outputText value="#{search.pagination.pageFirstItem + 1}..#{search.pagination.pageLastItem + 1}/#{search.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{search.previous}" value="#{bundle.Previous} #{search.pagination.pageSize}" rendered="#{search.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{search.next}" value="#{bundle.Next} #{search.pagination.pageSize}" rendered="#{search.pagination.hasNextPage}"/>&nbsp;
                 <div class="table-responsive">
-                    <h:dataTable  styleClass="table t-transpa" value="#{recipeController.items}" var="item" border="0" cellpadding="2" cellspacing="0"  rules="all">
+                    <h:dataTable  styleClass="table t-transpa" value="#{search.items}" var="item" border="0" cellpadding="2" cellspacing="0"  rules="all">
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRecipeTitle_id}"/>
