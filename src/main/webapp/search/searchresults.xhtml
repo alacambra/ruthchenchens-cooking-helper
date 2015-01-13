@@ -45,6 +45,20 @@
                         </b:inputText>
                     </h:form>
                 </b:column>
+                <b:column span="3" offset="1">
+                    <h:form>
+                        <label>Some of this categories</label>
+                        <b:inputText value="#{search.categories}">
+
+                        </b:inputText>
+                        <label>without any of these ingredients</label>
+                        <b:inputText value="#{search.ingredients}">
+                            <f:facet name="append">
+                                <b:commandButton value="Search" actionListener="#{search.createCriteriaNOTs()}"/>
+                            </f:facet>
+                        </b:inputText>
+                    </h:form>
+                </b:column>
             </b:row>
         </b:container>
         <h:form styleClass="jsfcrud_list_form">

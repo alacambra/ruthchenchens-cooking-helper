@@ -21,7 +21,6 @@ public class SearchRecipeController implements Serializable{
     private DataModel items = null;
     private String ingredients;
     private String categories;
-    private int lastCriteriaCount = -1;
     private SearchType searchType;
     private boolean paginating = false;
 
@@ -79,6 +78,11 @@ public class SearchRecipeController implements Serializable{
 
     public void createCriteriaAllANDs(){
         searchType = SearchType.AND;
+        searchTypeChanged();
+    }
+
+    public void createCriteriaNOTs(){
+        searchType = SearchType.NOT;
         searchTypeChanged();
     }
 
