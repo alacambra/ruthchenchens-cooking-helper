@@ -22,7 +22,7 @@
                 <h:commandLink action="#{recipeController.previous}" value="#{bundle.Previous} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasPreviousPage}"/>&nbsp;
                 <h:commandLink action="#{recipeController.next}" value="#{bundle.Next} #{recipeController.pagination.pageSize}" rendered="#{recipeController.pagination.hasNextPage}"/>&nbsp;
                 <div class="table-responsive">
-                    <h:dataTable styleClass="table table-striped" value="#{recipeController.items}" var="item" border="0" cellpadding="2" cellspacing="0"  rules="all">
+                    <h:dataTable  styleClass="table t-transpa" value="#{recipeController.items}" var="item" border="0" cellpadding="2" cellspacing="0"  rules="all">
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRecipeTitle_id}"/>

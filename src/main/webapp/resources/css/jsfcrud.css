@@ -5,8 +5,17 @@ root {
 body {
     font-family: Arial, Helvetica, sans-serif;
     color: #3a4f54;
-    background-color: #dfecf1;
+    background: #dfecf1 url('/cookinghelper/resources/img/vegetables.jpg');
     font-size: small;
+}
+
+.cc-panel{
+    background-color: rgba(255,255,255,0.6);
+    padding: 15px;
+}
+
+.t-transpa{
+    background-color: rgba(255,255,255,0.8);
 }
 
 a {

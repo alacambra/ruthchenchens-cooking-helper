@@ -76,3 +76,4 @@ db
 .docker-build.sh.kate-swp
 build-scripts/cookinghelper.h2.db
 build-scripts/Dockerfile
+build/Dockerfile
