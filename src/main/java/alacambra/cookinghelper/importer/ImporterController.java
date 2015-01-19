@@ -1,10 +1,7 @@
 package alacambra.cookinghelper.importer;
 
-import alacambra.cookinghelper.utils.Importer;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Model;
 import javax.inject.Named;
 import java.io.Serializable;
 

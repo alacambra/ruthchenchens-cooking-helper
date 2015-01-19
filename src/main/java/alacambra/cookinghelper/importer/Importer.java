@@ -1,4 +1,4 @@
-package alacambra.cookinghelper.utils;
+package alacambra.cookinghelper.importer;
 
 import alacambra.cookinghelper.book.Book;
 import alacambra.cookinghelper.category.Category;
@@ -99,6 +99,7 @@ public class Importer{
 
     Set<Category> insertCategories(CSVRecord record){
         String data = record.get(recipeCategoryHeader);
+        data += ";" + record.get(bookKeywordsHeader);
         String[] categories = data.split(";");
         Set<Category> cats = new HashSet<>();
 
