@@ -120,6 +120,9 @@ public class SearchRecipeFacade extends AbstractFacade<Recipe> {
             recipesWithoutIngredientQuery = cb.createQuery(Recipe.class);
         }
 
+        /**
+         * Subquery to select all items with some of the ingredients
+         */
         Subquery<Long> recipesWithIngredient = recipesWithoutIngredientQuery.subquery(Long.class);
         Root<Recipe> recipeWithIngredientRoot = recipesWithIngredient.from(Recipe.class);
         Join<Recipe, Ingredient> recipeIngredient = recipeWithIngredientRoot.join(recipeMetamodel.getSet("ingredients", Ingredient.class));
@@ -139,6 +142,9 @@ public class SearchRecipeFacade extends AbstractFacade<Recipe> {
                 )
                 .groupBy(recipeWithIngredientRoot.get("id"));
 
+        /**
+         * Query to select the final recipes
+         */
         Root<Recipe> recipesWithoutIngredientRoot = recipesWithoutIngredientQuery.from(Recipe.class);
 
         if(count){
@@ -147,8 +153,29 @@ public class SearchRecipeFacade extends AbstractFacade<Recipe> {
             recipesWithoutIngredientQuery.select(recipesWithoutIngredientRoot).distinct(true);
         }
 
-        recipesWithoutIngredientQuery.where(
-                recipesWithoutIngredientRoot.get("id").in(recipesWithIngredient).not());
+        /**
+         * Criteria for the categories
+         */
+
+        predicates = new Predicate[cats.length];
+        Predicate catsPredicate = null;
+        if(!criteriaIsEmpty(cats)) {
+            Join<Recipe, Category> cat = recipesWithoutIngredientRoot.join(recipeMetamodel.getSet("categories", Category.class));
+            for (int i = 0; i<cats.length && !cats[i].equals("") ;i++){
+                predicates[i] = cb.like((Expression<String>) cat.get(categoryMetamodel.getSingularAttribute("name")), cats[i].trim());
+                logger.info("OR:CAT:" + cats[i].trim());
+            }
+            catsPredicate = cb.or(predicates);
+        }
+
+        if(catsPredicate != null) {
+            recipesWithoutIngredientQuery.where(
+                    recipesWithoutIngredientRoot.get("id").in(recipesWithIngredient).not(), catsPredicate);
+        }else{
+            recipesWithoutIngredientQuery.where(
+                    recipesWithoutIngredientRoot.get("id").in(recipesWithIngredient).not());
+        }
+
 
         return recipesWithoutIngredientQuery;
     }
