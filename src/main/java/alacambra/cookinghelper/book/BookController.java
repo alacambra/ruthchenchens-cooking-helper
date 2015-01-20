@@ -6,6 +6,7 @@ import alacambra.cookinghelper.boundary.PaginationHelper;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -15,10 +16,14 @@ import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 @Named("bookController")
 @SessionScoped
 public class BookController implements Serializable {
+
+    @Inject
+    HttpSession session;
 
     private Book current;
     private DataModel items = null;
