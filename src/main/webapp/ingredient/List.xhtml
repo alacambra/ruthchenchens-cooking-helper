@@ -5,21 +5,22 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:composition template="/template.xhtml">
-        <ui:define name="title">
-            <h:outputText value="#{bundle.ListIngredientTitle}"></h:outputText>
-        </ui:define>
-        <ui:define name="body">
-            <h:form styleClass="jsfcrud_list_form">
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListIngredientEmpty}" rendered="#{ingredientController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{ingredientController.items.rowCount > 0}">
-                    <h:outputText value="#{ingredientController.pagination.pageFirstItem + 1}..#{ingredientController.pagination.pageLastItem + 1}/#{ingredientController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{ingredientController.previous}" value="#{bundle.Previous} #{ingredientController.pagination.pageSize}" rendered="#{ingredientController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{ingredientController.next}" value="#{bundle.Next} #{ingredientController.pagination.pageSize}" rendered="#{ingredientController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{ingredientController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+<ui:composition template="/template.xhtml">
+    <ui:define name="title">
+        <h:outputText value="#{bundle.ListIngredientTitle}"></h:outputText>
+    </ui:define>
+    <ui:define name="body">
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListIngredientEmpty}" rendered="#{ingredientController.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{ingredientController.items.rowCount > 0}">
+                <h:outputText value="#{ingredientController.pagination.pageFirstItem + 1}..#{ingredientController.pagination.pageLastItem + 1}/#{ingredientController.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{ingredientController.previous}" value="#{bundle.Previous} #{ingredientController.pagination.pageSize}" rendered="#{ingredientController.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{ingredientController.next}" value="#{bundle.Next} #{ingredientController.pagination.pageSize}" rendered="#{ingredientController.pagination.hasNextPage}"/>&nbsp;
+                <div class="table-responsive">
+                    <h:dataTable styleClass="table t-transpa" value="#{ingredientController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rules="all" style="border:solid 1px">
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListIngredientTitle_id}"/>
@@ -41,10 +42,11 @@
                             <h:commandLink action="#{ingredientController.destroy}" value="#{bundle.ListIngredientDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
-                </h:panelGroup>
-                <br />
-            </h:form>
-        </ui:define>
-    </ui:composition>
+                </div>
+            </h:panelGroup>
+            <br />
+        </h:form>
+    </ui:define>
+</ui:composition>
 
 </html>

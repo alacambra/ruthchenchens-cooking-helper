@@ -19,7 +19,8 @@
                     <h:outputText value="#{categoryController.pagination.pageFirstItem + 1}..#{categoryController.pagination.pageLastItem + 1}/#{categoryController.pagination.itemsCount}"/>&nbsp;
                     <h:commandLink action="#{categoryController.previous}" value="#{bundle.Previous} #{categoryController.pagination.pageSize}" rendered="#{categoryController.pagination.hasPreviousPage}"/>&nbsp;
                     <h:commandLink action="#{categoryController.next}" value="#{bundle.Next} #{categoryController.pagination.pageSize}" rendered="#{categoryController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{categoryController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                    <div class="table-responsive">
+                    <h:dataTable styleClass="table t-transpa" value="#{categoryController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rules="all" style="border:solid 1px">
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListCategoryTitle_id}"/>
@@ -41,6 +42,7 @@
                             <h:commandLink action="#{categoryController.destroy}" value="#{bundle.ListCategoryDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
+                    </div>
                 </h:panelGroup>
                 <br />
             </h:form>
