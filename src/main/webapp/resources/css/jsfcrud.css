@@ -5,7 +5,7 @@ root {
 body {
     font-family: Arial, Helvetica, sans-serif;
     color: #3a4f54;
-    background: #dfecf1 url('/cookinghelper/resources/img/vegetables.jpg');
+    background: #dfecf1 url('/resources/img/vegetables.jpg');
     font-size: small;
 }
 
