@@ -15,7 +15,7 @@ import java.util.*;
  */
 @Named("search")
 @SessionScoped
-public class SearchRecipeController implements Serializable{
+public class AdvancedSearchRecipeController implements Serializable{
 
     private PaginationHelper pagination;
     private DataModel items = null;
@@ -25,7 +25,7 @@ public class SearchRecipeController implements Serializable{
     private boolean paginating = false;
 
     @EJB
-    private SearchRecipeFacade facade;
+    private AdvancedSearchRecipeFacade facade;
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
@@ -114,16 +114,16 @@ public class SearchRecipeController implements Serializable{
     public String next() {
         getPagination().nextPage();
         recreateModel();
-        return "searchresults";
+        return "advancedsearchresults";
     }
 
     public String previous() {
         getPagination().previousPage();
         recreateModel();
-        return "searchresults";
+        return "advancedsearchresults";
     }
 
-    public SearchRecipeFacade getFacade() {
+    public AdvancedSearchRecipeFacade getFacade() {
         return facade;
     }
 }

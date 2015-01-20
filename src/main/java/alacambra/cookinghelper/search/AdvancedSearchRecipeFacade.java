@@ -28,9 +28,11 @@ import java.util.logging.Logger;
  * @author alacambra
  */
 @Stateless
-public class SearchRecipeFacade extends AbstractFacade<Recipe> {
+public class AdvancedSearchRecipeFacade extends AbstractFacade<Recipe> {
+
     @PersistenceContext(unitName = "Cookinghelper")
     private EntityManager em;
+
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Override
@@ -38,7 +40,7 @@ public class SearchRecipeFacade extends AbstractFacade<Recipe> {
         return em;
     }
 
-    public SearchRecipeFacade() {
+    public AdvancedSearchRecipeFacade() {
         super(Recipe.class);
     }
 
@@ -80,8 +82,6 @@ public class SearchRecipeFacade extends AbstractFacade<Recipe> {
             predicates = getOrPredicates(ingrs, cats, recipes, recipeMetamodel, ingredientMetamodel, categoryMetamodel, cb);
         } else if(searchType == SearchType.AND){
             predicates = getAndPredicates(ingrs, cats, recipes, recipeMetamodel, ingredientMetamodel, categoryMetamodel, cb);
-        } else if(searchType == SearchType.NOT){
-            predicates = getNotPredicates(ingrs, cats, recipes, recipeMetamodel, ingredientMetamodel, categoryMetamodel, cb);
         }
 
         Predicate[] allPredicates = new Predicate[predicates.size()];
@@ -156,7 +156,6 @@ public class SearchRecipeFacade extends AbstractFacade<Recipe> {
         /**
          * Criteria for the categories
          */
-
         predicates = new Predicate[cats.length];
         Predicate catsPredicate = null;
         if(!criteriaIsEmpty(cats)) {
@@ -243,46 +242,6 @@ public class SearchRecipeFacade extends AbstractFacade<Recipe> {
                 logger.info("And:CAT:" + cats[i].trim());
 
             }
-        }
-
-        return predicates;
-    }
-
-    private Set<Predicate> getNotPredicates(
-            String[] ingrs,
-            String[] cats,
-            Root<Recipe> recipes,
-            EntityType<Recipe> recipeMetamodel,
-            EntityType<Ingredient> ingredientMetamodel,
-            EntityType<Category> categoryMetamodel,
-            CriteriaBuilder cb){
-
-        Set<Predicate> predicates = new HashSet<>();
-        Predicate[] ingOr = new Predicate[ingrs.length];
-        Predicate[] catOr = new Predicate[cats.length];
-
-//        Subquery<Recipe> subquery = criteriaQuery.subquery(PROJECT.class);
-//        Root fromProject = subquery.from(PROJECT.class);
-//        subquery.select(fromProject.get("requiredColumnName")); // field to map with main-query
-//        subquery.where(criteriaBuilder.equal("name",name_value));
-//        subquery.where(criteriaBuilder.equal("id",id_value));
-
-        if(!criteriaIsEmpty(ingrs)) {
-
-            for (int i = 0; i<ingOr.length && !ingrs[i].equals("") ;i++){
-                Join<Recipe, Ingredient> ing = recipes.join(recipeMetamodel.getSet("ingredients", Ingredient.class));
-                predicates.add(cb.notLike((Expression<String>) ing.get(ingredientMetamodel.getSingularAttribute("name")), ingrs[i].trim()));
-                logger.info("NOT:ING:" + ingrs[i].trim());
-            }
-        }
-
-        if(!criteriaIsEmpty(cats)) {
-            Join<Recipe, Category> cat = recipes.join(recipeMetamodel.getSet("categories", Category.class));
-            for (int i = 0; i<catOr.length && !cats[i].equals("") ;i++){
-                catOr[i] = cb.like((Expression<String>) cat.get(categoryMetamodel.getSingularAttribute("name")), cats[i].trim());
-                logger.info("OR:CAT:" + cats[i].trim());
-            }
-            predicates.add(cb.or(catOr));
         }
 
         return predicates;

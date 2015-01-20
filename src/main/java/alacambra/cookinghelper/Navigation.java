@@ -12,6 +12,6 @@ import java.io.Serializable;
 public class Navigation implements Serializable{
 
     public String goToSearch(){
-        return "searchresults";
+        return "advancedsearchresults";
     }
 }

@@ -16,7 +16,7 @@
 <h:body>
     <b:navBar brandHref="#" inverse="true">
         <b:navbarLinks>
-            <b:navLink outcome="/search/searchresults" value="Search for recipes!!"/>
+            <b:navLink outcome="/search/advancedsearchresults" value="Search for recipes!!"/>
             <b:navLink outcome="/book/List" value="Show All Book Items"/>
             <b:navLink outcome="/category/List" value="Show All Category Items"/>
             <b:navLink outcome="/ingredient/List" value="Show All Ingredient Items"/>
@@ -24,9 +24,9 @@
             <b:navLink outcome="/import/import" value="Import list"/>
             <h:form>
                 <h:panelGrid columns="2" cellpadding="5">
-                    <b:inputText value="hello">
+                    <b:inputText value="#{simpleSearch.searchString}">
                         <f:facet name="append">
-                            <b:button value="Search" outcome="/search/searchresults"/>
+                            <b:commandButton value="Search" action="#{simpleSearch.searchAll}"></b:commandButton>
                         </f:facet>
                     </b:inputText>
                 </h:panelGrid>

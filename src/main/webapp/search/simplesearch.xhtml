@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/template.xhtml">
+    <ui:define name="title">
+        SimpleSearch
+    </ui:define>
+    <ui:define name="body">
+        <h:form styleClass="jsfcrud_list_form">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText escape="false" value="#{bundle.ListIngredientEmpty}" rendered="#{simpleSearch.items.rowCount == 0}"/>
+            <h:panelGroup rendered="#{simpleSearch.items.rowCount > 0}">
+                <h:outputText value="#{simpleSearch.pagination.pageFirstItem + 1}..#{simpleSearch.pagination.pageLastItem + 1}/#{simpleSearch.pagination.itemsCount}"/>&nbsp;
+                <h:commandLink action="#{simpleSearch.previous}" value="#{bundle.Previous} #{simpleSearch.pagination.pageSize}" rendered="#{simpleSearch.pagination.hasPreviousPage}"/>&nbsp;
+                <h:commandLink action="#{simpleSearch.next}" value="#{bundle.Next} #{simpleSearch.pagination.pageSize}" rendered="#{simpleSearch.pagination.hasNextPage}"/>&nbsp;
+                <div class="table-responsive">
+                    <h:dataTable  styleClass="table t-transpa" value="#{simpleSearch.items}" var="item" border="0" cellpadding="2" cellspacing="0"  rules="all">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_title}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.title}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_book}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.book}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_rating}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.rating}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_page}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.page}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_ingredient}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ingredient}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListRecipeTitle_category}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.category}"/>
+                        </h:column>
+                    </h:dataTable>
+                </div>
+                <br/>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
