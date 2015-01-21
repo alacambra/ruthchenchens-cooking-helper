@@ -30,7 +30,46 @@ public class SimpleSearchFacade extends AbstractFacade<Recipe> {
 
 
     public CriteriaQuery getCriteria(boolean count, SearchBy searchBy, Long id){
-        return null;
+
+        EntityType<Recipe> recipeMetamodel = em.getMetamodel().entity(Recipe.class);
+        EntityType<Ingredient> ingredientMetamodel = em.getMetamodel().entity(Ingredient.class);
+        EntityType<Category> categoryMetamodel = em.getMetamodel().entity(Category.class);
+        EntityType<Book> bookMetamodel = em.getMetamodel().entity(Book.class);
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+
+        CriteriaQuery cq;
+        if(count){
+            cq = cb.createQuery(Long.class);
+        }else{
+            cq = cb.createQuery(Recipe.class);
+        }
+
+        cb.createQuery(Recipe.class);
+        Root<Recipe> recipes = cq.from(Recipe.class);
+
+        Join join = null;
+        Predicate predicate = null;
+
+        if(searchBy == SearchBy.INGREDIENT) {
+
+            join = recipes.join(recipeMetamodel.getSet("ingredients", Ingredient.class));
+            predicate = cb.equal((Expression<Long>) join.get(ingredientMetamodel.getSingularAttribute("id")), id);
+
+        } else if(searchBy == SearchBy.BOOK){
+
+            join.join(recipeMetamodel.getSingularAttribute("book", Book.class));
+            predicate = cb.equal((Expression<Long>) join.get(bookMetamodel.getSingularAttribute("id")), id);
+
+        } else if(searchBy == SearchBy.CATEGORY){
+
+            join = recipes.join(recipeMetamodel.getSet("categories", Category.class));
+            predicate = cb.equal((Expression<Long>)join.get(categoryMetamodel.getSingularAttribute("id")), id);
+
+        }
+
+        CriteriaQuery<Recipe> select = count ? cq.select(cb.countDistinct(recipes)) : cq.select(recipes);
+        return select.where(predicate);
     }
 
     public CriteriaQuery getCriteria(boolean count, String searchString){

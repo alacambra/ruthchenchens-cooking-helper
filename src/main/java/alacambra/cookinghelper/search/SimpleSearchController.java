@@ -106,12 +106,6 @@ public class SimpleSearchController implements Serializable{
         return searchBy;
     }
 
-//    public void searchTypeChanged(){
-//        recreateModel();
-//        recreatePagination();
-//        paginating = true;
-//    }
-
     public DataModel getItems() {
         if(!paginating) {
             return new ListDataModel(new ArrayList());
