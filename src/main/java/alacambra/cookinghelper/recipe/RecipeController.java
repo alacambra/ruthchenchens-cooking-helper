@@ -192,44 +192,44 @@ public class RecipeController implements Serializable {
         return ejbFacade.find(id);
     }
 
-    @FacesConverter(forClass = Recipe.class)
-    public static class RecipeControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            RecipeController controller = (RecipeController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "recipeController");
-            return controller.getRecipe(getKey(value));
-        }
-
-        int getKey(String value) {
-            int key;
-            key = Integer.parseInt(value);
-            return key;
-        }
-
-        String getStringKey(int value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Recipe) {
-                Recipe o = (Recipe) object;
-                return getStringKey(o.getId());
-            } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Recipe.class.getName());
-            }
-        }
-
-    }
+//    @FacesConverter(forClass = Recipe.class)
+//    public static class RecipeControllerConverter implements Converter {
+//
+//        @Override
+//        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+//            if (value == null || value.length() == 0) {
+//                return null;
+//            }
+//            RecipeController controller = (RecipeController) facesContext.getApplication().getELResolver().
+//                    getValue(facesContext.getELContext(), null, "recipeController");
+//            return controller.getRecipe(getKey(value));
+//        }
+//
+//        int getKey(String value) {
+//            int key;
+//            key = Integer.parseInt(value);
+//            return key;
+//        }
+//
+//        String getStringKey(int value) {
+//            StringBuilder sb = new StringBuilder();
+//            sb.append(value);
+//            return sb.toString();
+//        }
+//
+//        @Override
+//        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
+//            if (object == null) {
+//                return null;
+//            }
+//            if (object instanceof Recipe) {
+//                Recipe o = (Recipe) object;
+//                return getStringKey(o.getId());
+//            } else {
+//                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Recipe.class.getName());
+//            }
+//        }
+//
+//    }
 
 }

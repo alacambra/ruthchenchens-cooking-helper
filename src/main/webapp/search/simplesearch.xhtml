@@ -37,7 +37,9 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRecipeTitle_book}"/>
                             </f:facet>
-                            <h:outputText value="#{item.book}"/>
+                            <h:commandLink actionListener="#{simpleSearch.setSearchId(item.book.id)}"
+                                           action="#{simpleSearch.searchByBook}"
+                                           value="#{item.book}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -55,13 +57,36 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRecipeTitle_ingredient}"/>
                             </f:facet>
-                            <h:outputText value="#{item.ingredient}"/>
+                            <ui:repeat value="#{item.ingredient.toArray()}" var="ingredient">
+                                <p>
+                                    <label>
+                                        <h:commandLink actionListener="#{simpleSearch.setSearchId(ingredient.id)}"
+                                                       action="#{simpleSearch.searchByIngredient}"
+                                                       value="#{ingredient.name}"/>
+                                    </label>
+                                </p>
+                            </ui:repeat>
+
                         </h:column>
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListRecipeTitle_category}"/>
                             </f:facet>
-                            <h:outputText value="#{item.category}"/>
+                            <ui:repeat value="#{item.category.toArray()}" var="category">
+                                <p>
+                                    <label>
+                                        <h:commandLink actionListener="#{simpleSearch.setSearchId(category.id)}"
+                                                       action="#{simpleSearch.searchByCategory}"
+                                                       value="#{category.name}"/>
+                                    </label>
+                                </p>
+                            </ui:repeat>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{recipeController.prepareView}" value="#{bundle.ListRecipeViewLink}"/>
                         </h:column>
                     </h:dataTable>
                 </div>
