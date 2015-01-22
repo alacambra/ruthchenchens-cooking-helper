@@ -228,7 +228,5 @@ public class BookController implements Serializable {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Book.class.getName());
             }
         }
-
     }
-
 }

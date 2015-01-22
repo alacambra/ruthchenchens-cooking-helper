@@ -90,16 +90,28 @@ public class SimpleSearchController implements Serializable{
         this.searchString = searchString;
     }
 
-    public void setSearchBy(SearchBy searchBy) {
+    public String setSearchBy(SearchBy searchBy) {
         this.searchBy = searchBy;
         recreateModel();
         recreatePagination();
         paginating = true;
+        return "/search/simplesearch";
     }
 
     public String searchAll() {
-        this.setSearchBy(SearchBy.ALL);
-        return "/search/simplesearch";
+        return this.setSearchBy(SearchBy.ALL);
+    }1
+
+    public String searchByBook() {
+        return this.setSearchBy(SearchBy.BOOK);
+    }
+
+    public String searchByCategory() {
+        return this.setSearchBy(SearchBy.CATEGORY);
+    }
+
+    public String searchByIngredient() {
+        return this.setSearchBy(SearchBy.INGREDIENT);
     }
 
     public SearchBy getSearchBy() {

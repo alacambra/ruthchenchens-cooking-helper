@@ -58,7 +58,7 @@ public class SimpleSearchFacade extends AbstractFacade<Recipe> {
 
         } else if(searchBy == SearchBy.BOOK){
 
-            join.join(recipeMetamodel.getSingularAttribute("book", Book.class));
+            join = recipes.join(recipeMetamodel.getSingularAttribute("book", Book.class));
             predicate = cb.equal((Expression<Long>) join.get(bookMetamodel.getSingularAttribute("id")), id);
 
         } else if(searchBy == SearchBy.CATEGORY){

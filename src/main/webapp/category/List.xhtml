@@ -37,9 +37,9 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{categoryController.prepareView}" value="#{bundle.ListCategoryViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{categoryController.destroy}" value="#{bundle.ListCategoryDestroyLink}"/>
+                            <h:commandLink actionListener="#{simpleSearch.setSearchId(item.id)}"
+                                           action="#{simpleSearch.searchByCategory()}"
+                                           value="#{bundle.ListCategoryViewLink}"/>
                         </h:column>
                     </h:dataTable>
                     </div>

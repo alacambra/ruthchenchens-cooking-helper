@@ -43,9 +43,9 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{bookController.prepareView}" value="#{bundle.ListBookViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{bookController.destroy}" value="#{bundle.ListBookDestroyLink}"/>
+                            <h:commandLink actionListener="#{simpleSearch.setSearchId(item.id)}"
+                                           action="#{simpleSearch.searchByBook}"
+                                           value="#{bundle.ListBookViewLink}"/>
                         </h:column>
                     </h:dataTable>
                 </div>
