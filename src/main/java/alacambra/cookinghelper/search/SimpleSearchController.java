@@ -100,7 +100,7 @@ public class SimpleSearchController implements Serializable{
 
     public String searchAll() {
         return this.setSearchBy(SearchBy.ALL);
-    }1
+    }
 
     public String searchByBook() {
         return this.setSearchBy(SearchBy.BOOK);
