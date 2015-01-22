@@ -68,7 +68,7 @@ public class SimpleSearchFacade extends AbstractFacade<Recipe> {
 
         }
 
-        CriteriaQuery<Recipe> select = count ? cq.select(cb.countDistinct(recipes)) : cq.select(recipes);
+        CriteriaQuery<Recipe> select = count ? cq.select(cb.countDistinct(recipes)) : cq.select(recipes).distinct(true);
         return select.where(predicate);
     }
 
@@ -105,7 +105,7 @@ public class SimpleSearchFacade extends AbstractFacade<Recipe> {
                 (Expression<String>)categoryJoin.get(categoryMetamodel.getSingularAttribute("name")),
                 "%" + searchString.trim() + "%");
 
-        CriteriaQuery<Recipe> select = count ? cq.select(cb.countDistinct(recipes)) : cq.select(recipes);
+        CriteriaQuery<Recipe> select = count ? cq.select(cb.countDistinct(recipes)) : cq.select(recipes).distinct(true);
 
 
         return select.where(
