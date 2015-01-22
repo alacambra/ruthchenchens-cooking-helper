@@ -52,7 +52,7 @@ public class Importer{
 
         try {
             data = IOUtils.toString(
-                    this.getClass().getClassLoader().getResourceAsStream("receptes2.csv"),
+                    this.getClass().getClassLoader().getResourceAsStream("receptes.csv"),
                     Charset.forName("UTF8"));
 
         } catch (IOException e) {

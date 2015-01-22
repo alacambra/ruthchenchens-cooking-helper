@@ -77,3 +77,4 @@ db
 build-scripts/cookinghelper.h2.db
 build-scripts/Dockerfile
 build/Dockerfile
+src/main/resources/receptes.csv
