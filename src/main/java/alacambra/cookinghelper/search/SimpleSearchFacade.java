@@ -74,6 +74,8 @@ public class SimpleSearchFacade extends AbstractFacade<Recipe> {
 
     public CriteriaQuery getCriteria(boolean count, String searchString){
 
+        searchString = searchString.trim().toLowerCase();
+
         EntityType<Recipe> recipeMetamodel = em.getMetamodel().entity(Recipe.class);
         EntityType<Ingredient> ingredientMetamodel = em.getMetamodel().entity(Ingredient.class);
         EntityType<Category> categoryMetamodel = em.getMetamodel().entity(Category.class);
@@ -91,19 +93,19 @@ public class SimpleSearchFacade extends AbstractFacade<Recipe> {
         cb.createQuery(Recipe.class);
         Root<Recipe> recipes = cq.from(Recipe.class);
 
-        Join<Recipe, Ingredient> ingredientJoin = recipes.join(recipeMetamodel.getSet("ingredients", Ingredient.class));
+        Join<Recipe, Ingredient> ingredientJoin = recipes.join(recipeMetamodel.getSet("ingredients", Ingredient.class), JoinType.LEFT);
         Predicate ingredientPred = cb.like(
                 (Expression<String>)ingredientJoin.get(ingredientMetamodel.getSingularAttribute("name")),
-                "%" + searchString.trim() + "%");
+                "%" + searchString + "%");
 
-        Join<Recipe, Book> bookJoin = recipes.join(recipeMetamodel.getSingularAttribute("book", Book.class));
+        Join<Recipe, Book> bookJoin = recipes.join(recipeMetamodel.getSingularAttribute("book", Book.class), JoinType.LEFT);
         Predicate recipePred = cb.like((Expression<String>)bookJoin.get(bookMetamodel.getSingularAttribute("title")),
-                "%" + searchString.trim() + "%");
+                "%" + searchString + "%");
 
-        Join<Recipe, Category> categoryJoin = recipes.join(recipeMetamodel.getSet("categories", Category.class));
+        Join<Recipe, Category> categoryJoin = recipes.join(recipeMetamodel.getSet("categories", Category.class), JoinType.LEFT);
         Predicate categoryPred = cb.like(
                 (Expression<String>)categoryJoin.get(categoryMetamodel.getSingularAttribute("name")),
-                "%" + searchString.trim() + "%");
+                "%" + searchString + "%");
 
         CriteriaQuery<Recipe> select = count ? cq.select(cb.countDistinct(recipes)) : cq.select(recipes).distinct(true);
 
@@ -113,7 +115,7 @@ public class SimpleSearchFacade extends AbstractFacade<Recipe> {
                         ingredientPred, recipePred, categoryPred,
                         cb.like(
                                 (Expression<String>) recipes.get(recipeMetamodel.getSingularAttribute("title")),
-                                "%" + searchString.trim() + "%"
+                                "%" + searchString + "%"
                         )
                 )
         );
