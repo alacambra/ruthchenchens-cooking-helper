@@ -13,9 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,9 +49,17 @@ public class Importer{
         String data = null;
 
         try {
-            data = IOUtils.toString(
-                    this.getClass().getClassLoader().getResourceAsStream("receptes.csv"),
-                    Charset.forName("UTF8"));
+            if(System.getenv("RECEPTES") != null){
+                File file = new File(System.getenv("RECEPTES"));
+                if(file.exists()){
+                    FileReader reader = new FileReader(file);
+                    data  = IOUtils.toString(reader);
+                } else {
+                    data = readDataFromString();
+                }
+            } else {
+                data = readDataFromString();
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -67,6 +73,16 @@ public class Importer{
                 Set<Ingredient> ingredients = insertIngredients(record);
                 insertRecipe(record, currentBook, ingredients, categories);
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    String readDataFromString(){
+        try {
+            return IOUtils.toString(
+                    this.getClass().getClassLoader().getResourceAsStream("receptes.csv"),
+                    Charset.forName("UTF8"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
