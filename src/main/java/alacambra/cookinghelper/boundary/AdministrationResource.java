@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 /**
  * Created by alacambra on 2/6/15.
  */
-@Path("/admin")
+@Path("/backup")
 @Stateless
 public class AdministrationResource {
 
@@ -18,10 +18,10 @@ public class AdministrationResource {
     EntityManager em;
 
     @GET
-    public Response getDbBackUp(){
+    public Integer getDbBackUp(){
 
-        em.createNativeQuery("BACKUP2 TO backup.zip").executeUpdate();
-        return null;
+        int ret = em.createNativeQuery("BACKUP TO '/opt/jboss/wildfly/backup/backup.zip'").executeUpdate();
+        return ret;
     }
 
 }
