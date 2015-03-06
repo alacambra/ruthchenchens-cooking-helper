@@ -4,6 +4,6 @@ ADD standalone.xml /opt/jboss/wildfly/standalone/configuration/
 #ADD cookinghelper.h2.db /opt/jboss/wildfly/db/
 #USER root
 #RUN chmod 777 /opt/jboss/wildfly/db/
-RUN /opt/jboss/wildfly/bin/add-user.sh {usr} {psw} --silent
+RUN /opt/jboss/wildfly/bin/add-user.sh ${COOKINGHELPER_WF_USR} ${COOKINGHELPER_WF_PSW} --silent
 ADD cookinghelper.war /opt/jboss/wildfly/standalone/deployments/
 CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
