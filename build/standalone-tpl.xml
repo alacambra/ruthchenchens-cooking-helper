@@ -155,6 +155,9 @@
                 <datasource jta="true" jndi-name="java:jboss/datasources/cookinghelper" pool-name="mysql" enabled="true" use-ccm="true">
                     <connection-url>jdbc:mysql://lacambra.de:13306/cookinghelper</connection-url>
                     <driver-class>com.mysql.jdbc.Driver</driver-class>
+                    <connection-property name="autoReconnect">
+                        true
+                    </connection-property>
                     <driver>mysql-connector-java-5.1.34-bin.jar_com.mysql.jdbc.Driver_5_1</driver>
                     <pool>
                         <min-pool-size>5</min-pool-size>
@@ -165,8 +168,10 @@
                         <password>${COOKINGHELPER_DB_PSW}</password>
                     </security>
                     <validation>
-                        <validate-on-match>false</validate-on-match>
+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+                        <validate-on-match>true</validate-on-match>
                         <background-validation>false</background-validation>
+                        <background-validation-millis>3000</background-validation-millis>
                     </validation>
                     <timeout>
                         <set-tx-query-timeout>false</set-tx-query-timeout>
