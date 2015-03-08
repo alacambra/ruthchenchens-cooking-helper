@@ -31,7 +31,8 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListIngredientTitle_name}"/>
                             </f:facet>
-                            <h:outputText value="#{item.name}"/>
+                            <h:inputText value="#{item.name}" size="10" rendered="#{ingredientController.editing}" />
+                            <h:commandLink value="#{item.name}" action="#{ingredientController.setEditing(true)}" rendered="#{not ingredientController.editing}" />
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -40,6 +41,14 @@
                             <h:commandLink actionListener="#{simpleSearch.setSearchId(item.id)}"
                                            action="#{simpleSearch.searchByIngredient}"
                                            value="#{bundle.ListIngredientViewLink}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink actionListener="#{simpleSearch.setSearchId(item.id)}"
+                                           action="#{ingredientController.commitEdition}"
+                                           value="#{bundle.ListIngredientEditLink}"/>
                         </h:column>
                     </h:dataTable>
                 </div>

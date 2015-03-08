@@ -6,16 +6,15 @@ import alacambra.cookinghelper.boundary.PaginationHelper;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
+import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
-import javax.inject.Named;
+import javax.enterprise.inject.Model;
+import javax.faces.view.ViewScoped;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import javax.inject.Named;
 
 @Named("ingredientController")
 @SessionScoped
@@ -27,6 +26,7 @@ public class IngredientController implements Serializable {
     private alacambra.cookinghelper.ingredient.IngredientFacade ejbFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+    private boolean editing = false;
 
     public IngredientController() {
     }
@@ -89,21 +89,27 @@ public class IngredientController implements Serializable {
         }
     }
 
-    public String prepareEdit() {
+    public String precommitEdit() {
         current = (Ingredient) getItems().getRowData();
         selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
         return "Edit";
     }
 
-    public String update() {
+    public String commitEdition() {
         try {
+            precommitEdit();
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("IngredientUpdated"));
-            return "View";
+            setEditing(false);
+            return "List";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            return null;
+            return "List";
         }
+    }
+
+    public void beginEdition(){
+
     }
 
     public String destroy() {
@@ -117,6 +123,19 @@ public class IngredientController implements Serializable {
 
     public String destroyAndView() {
         performDestroy();
+        recreateModel();
+        updateCurrentItem();
+        if (selectedItemIndex >= 0) {
+            return "View";
+        } else {
+            // all items were removed - go back to list
+            recreateModel();
+            return "List";
+        }
+    }
+
+    public String save() {
+        getFacade().edit(current);
         recreateModel();
         updateCurrentItem();
         if (selectedItemIndex >= 0) {
@@ -177,6 +196,14 @@ public class IngredientController implements Serializable {
         getPagination().previousPage();
         recreateModel();
         return "List";
+    }
+
+    public boolean isEditing() {
+        return editing;
+    }
+
+    public void setEditing(boolean editing) {
+        this.editing = editing;
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
