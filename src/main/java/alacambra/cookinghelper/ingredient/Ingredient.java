@@ -17,6 +17,9 @@ public class Ingredient {
     @Column(unique = true)
     String name;
 
+    @Transient
+    boolean editing;
+
     public Integer getId() {
         return id;
     }
@@ -36,5 +39,13 @@ public class Ingredient {
     @Override
     public String toString() {
         return name;
+    }
+
+    public boolean isEditing() {
+        return editing;
+    }
+
+    public void setEditing(boolean editing) {
+        this.editing = editing;
     }
 }

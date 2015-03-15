@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -10,51 +10,92 @@
         <h:outputText value="#{bundle.ListIngredientTitle}"></h:outputText>
     </ui:define>
     <ui:define name="body">
-        <h:form styleClass="jsfcrud_list_form">
+        <script type="text/javascript">
+
+            function setEditMode(id){
+
+                var selector_edit = "#edit_" + id;
+                var selector_read = "#read_" + id;
+//
+                if ( $(selector_edit).is(":visible") ) {
+
+                    $(selector_edit).hide();
+                    $(selector_read).show();
+
+                } else {
+
+                    $(selector_edit).show();
+                    $(selector_read).hide();
+
+                }
+            }
+
+            function updateValue(data){
+                if(data.status === "success"){
+
+                }
+            }
+
+        </script>
+        <!--<h:form styleClass="jsfcrud_list_form">-->
+        <h:form>
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:outputText escape="false" value="#{bundle.ListIngredientEmpty}" rendered="#{ingredientController.items.rowCount == 0}"/>
-            <h:panelGroup rendered="#{ingredientController.items.rowCount > 0}">
+        </h:form>
+        <h:panelGroup rendered="#{ingredientController.items.rowCount > 0}">
+
+
+            <h:form>
                 <h:outputText value="#{ingredientController.pagination.pageFirstItem + 1}..#{ingredientController.pagination.pageLastItem + 1}/#{ingredientController.pagination.itemsCount}"/>&nbsp;
                 <h:commandLink action="#{ingredientController.previous}" value="#{bundle.Previous} #{ingredientController.pagination.pageSize}" rendered="#{ingredientController.pagination.hasPreviousPage}"/>&nbsp;
                 <h:commandLink action="#{ingredientController.next}" value="#{bundle.Next} #{ingredientController.pagination.pageSize}" rendered="#{ingredientController.pagination.hasNextPage}"/>&nbsp;
-                <div class="table-responsive">
-                    <h:dataTable styleClass="table t-transpa" value="#{ingredientController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rules="all" style="border:solid 1px">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListIngredientTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListIngredientTitle_name}"/>
-                            </f:facet>
-                            <h:inputText value="#{item.name}" size="10" rendered="#{ingredientController.editing}" />
-                            <h:commandLink value="#{item.name}" action="#{ingredientController.setEditing(true)}" rendered="#{not ingredientController.editing}" />
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink actionListener="#{simpleSearch.setSearchId(item.id)}"
-                                           action="#{simpleSearch.searchByIngredient}"
-                                           value="#{bundle.ListIngredientViewLink}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink actionListener="#{simpleSearch.setSearchId(item.id)}"
-                                           action="#{ingredientController.commitEdition}"
-                                           value="#{bundle.ListIngredientEditLink}"/>
-                        </h:column>
-                    </h:dataTable>
-                </div>
-            </h:panelGroup>
-            <br />
-        </h:form>
+            </h:form>
+
+            <div class="table-responsive jsfcrud_list_form">
+                <h:dataTable styleClass="table t-transpa" value="#{ingredientController.items}" var="ingredient" border="0" cellpadding="2" cellspacing="0" rules="all" style="border:solid 1px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListIngredientTitle_id}"/>
+                        </f:facet>
+                        <h:outputText value="#{ingredient.id}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListIngredientTitle_name}" />
+                        </f:facet>
+                        <h:form>
+                            <f:ajax execute="@this" onevent="updateValue">
+                                <div id="edit_#{ingredient.id}" style="display: none;">
+
+                                    <h:inputText styleClass="edit-label" value="#{ingredient.name}" size="10" />
+                                    <h:commandButton value="ok" action="#{ingredientController.commitEdition}" />
+                                    <span onclick="setEditMode('#{ingredient.id}')">cancel</span>
+
+                                </div>
+                                <div id="read_#{ingredient.id}">
+                                    <h:inputText disabled="true" onclick="setEditMode('#{ingredient.id}')" styleClass="edit-label" value="#{ingredient.name}" size="10" />
+                                    <span class="read-label" onclick="setEditMode('#{ingredient.id}')">#{ingredient.name}</span>
+                                </div>
+                            </f:ajax>
+                        </h:form>
+                    </h:column>
+                    <h:column>
+                        <h:form>
+                        <f:facet name="header">
+                            <h:outputText value="&nbsp;"/>
+                        </f:facet>
+                        <h:commandLink actionListener="#{simpleSearch.setSearchId(ingredient.id)}"
+                                       action="#{simpleSearch.searchByIngredient}"
+                                       value="#{bundle.ListIngredientViewLink}"/>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </h:panelGroup>
+        <br />
+        <!--</h:form>-->
     </ui:define>
 </ui:composition>
 

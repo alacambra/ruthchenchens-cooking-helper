@@ -27,7 +27,7 @@ table {
     empty-cells: show;
 }
 
-form.jsfcrud_list_form th, td th {
+.jsfcrud_list_form th, td th {
     font-size: x-small;
     color: #4e6a71;
     border-top-style: solid;
@@ -57,7 +57,7 @@ td {
     font-size: small;
 }
 
-form.jsfcrud_list_form td, td td {
+.jsfcrud_list_form td, td td {
     border-top-style: solid;
     border-bottom-style: solid;
     border-left-style: solid;
