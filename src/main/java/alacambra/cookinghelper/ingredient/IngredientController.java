@@ -103,7 +103,8 @@ public class IngredientController implements Serializable {
             setEditing(false);
             return "List";
         } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccurred"));
+            recreateModel();
             return "List";
         }
     }

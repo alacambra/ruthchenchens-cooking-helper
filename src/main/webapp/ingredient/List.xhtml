@@ -16,19 +16,21 @@
 
                 var selector_edit = "#edit_" + id;
                 var selector_read = "#read_" + id;
-//
-                if ( $(selector_edit).is(":visible") ) {
-
-                    $(selector_edit).hide();
-                    $(selector_read).show();
-
-                } else {
 
                     $(selector_edit).show();
                     $(selector_read).hide();
-
-                }
             }
+
+            function cancelEdit(id){
+
+                var selector_edit = "#edit_" + id;
+                var selector_read = "#read_" + id;
+
+                $(selector_edit + " .edit-label").val($(selector_read+ " .read-label").text());
+                $(selector_edit).hide();
+                $(selector_read).show();
+            }
+
 
             function updateValue(data){
                 if(data.status === "success"){
@@ -38,12 +40,10 @@
 
         </script>
         <!--<h:form styleClass="jsfcrud_list_form">-->
-        <h:form>
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:outputText escape="false" value="#{bundle.ListIngredientEmpty}" rendered="#{ingredientController.items.rowCount == 0}"/>
-        </h:form>
         <h:panelGroup rendered="#{ingredientController.items.rowCount > 0}">
 
 
@@ -66,29 +66,28 @@
                             <h:outputText value="#{bundle.ListIngredientTitle_name}" />
                         </f:facet>
                         <h:form>
-                            <f:ajax execute="@this" onevent="updateValue">
-                                <div id="edit_#{ingredient.id}" style="display: none;">
 
-                                    <h:inputText styleClass="edit-label" value="#{ingredient.name}" size="10" />
+                            <div id="edit_#{ingredient.id}" style="display: none;">
+                                <h:inputText id="sid" styleClass="edit-label" value="#{ingredient.name}" size="10" />
+                                <f:ajax execute="sid" render="@form messagePanel">
                                     <h:commandButton value="ok" action="#{ingredientController.commitEdition}" />
-                                    <span onclick="setEditMode('#{ingredient.id}')">cancel</span>
+                                </f:ajax>
+                                <span onclick="cancelEdit('#{ingredient.id}')">cancel</span>
+                            </div>
+                            <div id="read_#{ingredient.id}">
+                                <span class="read-label" onclick="setEditMode('#{ingredient.id}')">#{ingredient.name}</span>
+                            </div>
 
-                                </div>
-                                <div id="read_#{ingredient.id}">
-                                    <h:inputText disabled="true" onclick="setEditMode('#{ingredient.id}')" styleClass="edit-label" value="#{ingredient.name}" size="10" />
-                                    <span class="read-label" onclick="setEditMode('#{ingredient.id}')">#{ingredient.name}</span>
-                                </div>
-                            </f:ajax>
                         </h:form>
                     </h:column>
                     <h:column>
                         <h:form>
-                        <f:facet name="header">
-                            <h:outputText value="&nbsp;"/>
-                        </f:facet>
-                        <h:commandLink actionListener="#{simpleSearch.setSearchId(ingredient.id)}"
-                                       action="#{simpleSearch.searchByIngredient}"
-                                       value="#{bundle.ListIngredientViewLink}"/>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink actionListener="#{simpleSearch.setSearchId(ingredient.id)}"
+                                           action="#{simpleSearch.searchByIngredient}"
+                                           value="#{bundle.ListIngredientViewLink}"/>
                         </h:form>
                     </h:column>
                 </h:dataTable>
